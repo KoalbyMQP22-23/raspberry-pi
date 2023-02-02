@@ -1,0 +1,76 @@
+.message {
+    font-weight: 600;
+    color: blue;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.body-content {
+    padding: 5px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.child{
+    display: inline-block;
+}
+
+.init-button{
+    display: block;
+    width: 115px;
+    height: 25px;
+    background: #61c245;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+.shutdown-button{
+    display: block;
+    width: 115px;
+    height: 25px;
+    background: #c24545;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
+.tutorial-button{
+    display: inline;
+    width: 115px;
+    height: 25px;
+    background: #45c2a1;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
+.button{
+    display: inline;
+    width: 115px;
+    height: 25px;
+    background: #e3b51c;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
+.button_div{
+    padding-top: 20px;
+}
