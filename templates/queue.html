@@ -7,27 +7,41 @@
 
     <div id="queueBox">
 
-        <script type="text/javascript">
-            localStorage.setItem("queue", {{ queueElements|tojson}})
-            console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))
-            queueView()
-        </script>
-
     </div>
-    <button id ="runButton">RUN</button>
+    <button id="runButton">RUN</button>
     <p id="running"></p>
     <script>
-        const button = document.getElementById("runButton");
-        button.addEventListener("click", function (e) {
-        e.preventDefault();
 
-        const request = new XMLHttpRequest();
-        request.onload = function () {
-            console.log(request.response);
-            document.getElementById("running").innerHTML = "Executing"
-        };
-        request.open("GET", "/run" + localStorage.getItem("queue"), true);
-        request.send()
+        function showQueue() {
+            const primList = localStorage.getItem("queue").split(", ");
+            for (let prim in primList) {
+                if (prim === "0") { //don't show null
+                    continue;
+                }
+                {#console.log(primList[prim])#}
+                const p = document.createElement("p");
+                p.innerText = primList[prim];
+                document.getElementById("queueBox").append(p);
+                {#data.append(prim, primList[prim]);#}
+                {#console.log(data)#}
+            }
+        }
+
+        window.onload = showQueue
+
+        const runButton = document.getElementById("runButton");
+        runButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("running").innerHTML = "executing" //before
+            const request = new XMLHttpRequest();
+            request.onload = function () {
+                {#console.log(request.response);#}
+                document.getElementById("running").innerHTML = request.response //after
+            };
+            request.open("POST", "/run", true);
+            request.setRequestHeader("Content-Type", "application/json");
+            console.log(JSON.stringify(localStorage.getItem("queue")))
+            request.send(JSON.stringify((localStorage.getItem("queue"))));
         });
     </script>
 

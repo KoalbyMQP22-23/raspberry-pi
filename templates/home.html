@@ -3,11 +3,33 @@
     Home
 {% endblock %}
 {% block content %}
-    <h1>Koalby UI.</h1>
-    <p>The robot has been initialized. Would you like to select prerecorded movements or record a new one?</p>
+    <h1>Control Pane</h1>
+    <p>The robot has been initialized</p>
     <div>
         <a href=pre-recorded class="button">Pre Recorded Movements</a>
         <a href=record-new class="button">Record New Movement</a>
         <a href=tutorial class="tutorial-button">?</a>
     </div>
+    <div>
+        <button id="startWalk" class="move_button">Press to Begin Walking</button>
+        <button id="stopWalk" class="move_button">Press to Stop Walking</button>
+        <p id="walkMessage"></p>
+    </div>
+    <div>
+        <button id="startHand" class="move_button">Press to Close Left Hand</button>
+        <button id="stopHand" class="move_button">Press to Open Left Hand</button>
+    </div>
+    <script>
+    var button = document.getElementById("startWalk");
+        button.addEventListener("click", function (e) {
+            console.log("Starting walk");
+            e.preventDefault();
+            const request = new XMLHttpRequest();
+            request.onload = function () {
+                document.getElementById('walkMessage').innerHTML = request.response;
+            };
+            request.open("GET", "/walk-start", true);
+            request.send();
+        });
+    </script>
 {% endblock %}

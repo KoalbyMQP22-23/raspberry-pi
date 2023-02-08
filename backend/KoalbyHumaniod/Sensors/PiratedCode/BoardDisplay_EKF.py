@@ -1,12 +1,15 @@
-import time
 from backend.KoalbyHumaniod.Sensors.PiratedCode import Wireframe_EKF as wf
 import pygame
 from operator import itemgetter
 
-from backend.KoalbyHumaniod import Sensors
-from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
-from backend.KoalbyHumaniod.Sensors.Sensors import get_sim_imu_data, do_work
-from backend.simulation import sim as vrep
+from backend.KoalbyHumaniod.Sensors.Sensors import do_work
+from operator import itemgetter
+
+import pygame
+
+from backend.KoalbyHumaniod.Sensors.PiratedCode import Wireframe_EKF as wf
+from backend.KoalbyHumaniod.Sensors.Sensors import do_work
+
 
 # client_id = vrep.simxStart('127.0.0.1', 19999, True, True, 5000, 5)
 
@@ -36,25 +39,20 @@ class ProjectionViewer:
                 if event.type == pygame.QUIT:
                     running = False
             self.clock.tick(loopRate)
+            # data = robot.get_imu_data()
             data = []
-            if client_id != "":
-                raw_data = get_sim_imu_data(client_id)
-                for piece in raw_data:
-                    if piece != 0:
-                        data.append(piece)
-
-            else:
-                robot.arduino_serial.send_command('41')  # reads IMU data
-                string_data = robot.arduino_serial.read_command()
-                if string_data.__len__() == 0:
-                    continue
-                num_data = string_data.split(",")
-                for piece in num_data:
-                    num_piece = float(piece)
-                    if num_piece != 0:
-                        data.append(num_piece)
-                    else:
-                        data.append(.01)
+            robot.arduino_serial.send_command('41')  # reads IMU data
+            string_data = robot.arduino_serial.read_command()
+            if string_data.__len__() == 0:
+                # return
+                continue
+            num_data = string_data.split(",")
+            for piece in num_data:
+                num_piece = float(piece)
+                if num_piece != 0:
+                    data.append(num_piece)
+                else:
+                    data.append(.01)
 
             if data.__len__() == 0 | data.__len__() != 9:  # error handling
                 continue

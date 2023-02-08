@@ -71,6 +71,20 @@
     font-weight: bold;
     line-height: 25px;
 }
+
+.move_button{
+    width: 25%;
+    height: 15px;
+    background: #1ce326;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
+
 .button_div{
     padding-top: 20px;
 }

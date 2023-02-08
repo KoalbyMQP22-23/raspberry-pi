@@ -1,10 +1,24 @@
 import csv
 import time
 
+from sympy.parsing.sympy_parser import null
+
+
+def split_list(robot, primitive_list, pose_time, pose_delay):
+    if "," in primitive_list:
+        arr = primitive_list.split(", ")
+        for prim in arr:
+            print(prim)
+            if prim == 'null':
+                continue;
+            play_motion(robot, prim, pose_time, pose_delay)
+    else:
+        play_motion(robot, primitive_list, pose_time, pose_delay)
+
 
 def play_motion(robot, file_name, pose_time, pose_delay):
     pose_time_millis = int((pose_time - 0.005) * 1000)
-    long_file_name = "../Primitives/poses/" + file_name
+    long_file_name = "/Applications/PyCharm.app/PycharmProjects/flaskProject/backend/Primitives/poses/" + file_name
     with open(long_file_name) as f:
         csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                               for row in
