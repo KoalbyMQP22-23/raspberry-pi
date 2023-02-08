@@ -71,19 +71,27 @@ class SimRobot(Robot):
         vrep.simxStopSimulation(self.client_id, vrep.simx_opmode_oneshot)
 
     def get_imu_data(self):
-        raw_data = get_sim_imu_data(client_id)
-        for piece in raw_data:
-            if piece != 0:
-                data.append(piece)
+        data = [vrep.simxGetFloatSignal(self.client_id, "gyroX", vrep.simx_opmode_streaming)[1],
+                vrep.simxGetFloatSignal(self.client_id, "gyroY", vrep.simx_opmode_streaming)[1],
+                vrep.simxGetFloatSignal(self.client_id, "gyroZ", vrep.simx_opmode_streaming)[1],
+                vrep.simxGetFloatSignal(self.client_id, "accelerometerX", vrep.simx_opmode_streaming)[1],
+                vrep.simxGetFloatSignal(self.client_id, "accelerometerY", vrep.simx_opmode_streaming)[1],
+                vrep.simxGetFloatSignal(self.client_id, "accelerometerZ", vrep.simx_opmode_streaming)[1], 1, 1, 1]
+        # have to append 1 for magnetometer data because there isn't one in CoppeliaSim
+        return data
 
     def read_battery_level(self):
         pass
 
     def get_tf_luna_data(self):
-        pass
+        dist = float(vrep.simxGetFloatSignal(self.client_id, "proximity", vrep.simx_opmode_streaming)[1])
+        print(dist)
+        if dist > 5:
+            print("stop")
 
     def get_husky_lens_data(self):
         pass
+
 
 class RealRobot(Robot):
 
@@ -94,7 +102,9 @@ class RealRobot(Robot):
         self.arduino_serial = ArduinoSerial()
         self.motors = self.motors_init()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
-        # print(self.arduino_serial.read_command())
+        self.arduino_serial.send_command('40')  # Init IMU
+        self.arduino_serial.send_command('50')  # Init TFLuna
+        self.arduino_serial.send_command('60')  # Init HuskyLens
 
     def motors_init(self):
 
@@ -136,3 +146,15 @@ class RealRobot(Robot):
             else:
                 data.append(.01)
         return data
+
+    def read_battery_level(self):
+        self.arduino_serial.send_command("30")
+        return self.arduino_serial.read_command()
+
+    def get_tf_luna_data(self):
+        self.arduino_serial.send_command("51")
+        return self.arduino_serial.read_command()
+
+    def get_husky_lens_data(self):
+        self.arduino_serial.send_command("61")
+        return self.arduino_serial.read_command()

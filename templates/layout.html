@@ -42,6 +42,7 @@
             e.preventDefault();
             const request = new XMLHttpRequest();
             request.onload = function () {
+                console.log(request.response);
                 document.getElementById("sensor-data-info").innerHTML = request.response
             };
             request.open("GET", "/sensor-data", true);

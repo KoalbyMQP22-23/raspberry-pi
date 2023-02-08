@@ -5,21 +5,6 @@ from simple_pid import PID
 from backend.simulation import sim as vrep
 
 
-def get_sim_imu_data(client_id):
-    ret_data = []
-    ret_data.append(vrep.simxGetFloatSignal(client_id, "gyroX", vrep.simx_opmode_streaming)[1])
-    ret_data.append(vrep.simxGetFloatSignal(client_id, "gyroY", vrep.simx_opmode_streaming)[1])
-    ret_data.append(vrep.simxGetFloatSignal(client_id, "gyroZ", vrep.simx_opmode_streaming)[1])
-    ret_data.append(vrep.simxGetFloatSignal(client_id, "accelerometerX", vrep.simx_opmode_streaming)[1])
-    ret_data.append(vrep.simxGetFloatSignal(client_id, "accelerometerY", vrep.simx_opmode_streaming)[1])
-    ret_data.append(vrep.simxGetFloatSignal(client_id, "accelerometerZ", vrep.simx_opmode_streaming)[1])
-    ret_data.append(1)
-    ret_data.append(1)
-    ret_data.append(1)
-
-    return ret_data
-
-
 def do_work(yaw, pitch, roll, client_id):
     # PID control
     pass
