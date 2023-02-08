@@ -87,7 +87,7 @@ class TrajPlanner:
         return useThisForIteratingThrough  # [[joint1value1, joint2value1, joint3value1], [...]]
 
     def convert_to_dictionary(self, keys, position):  # FIX!!!!!!
-        positionDictionary = {keys[0]: position[0], keys[1]: position[1], keys[2]: position[2]}
+        positionDictionary = {keys[0]: position[0], keys[1]: position[1], keys[2]: position[2], 21: -30}    # IMPORTANT
         return positionDictionary  # {13: jointvalue, 14: jointvalue, 15: jointvalue}  this needs to be set to robot.motorPositionDict
 
     def execute_cubic_traj(self, positionList, keys, t0, tf, v0, vf):
@@ -112,5 +112,6 @@ class TrajPlanner:
             positionDict = self.convert_to_dictionary(keys, allPositions)  # [v1, v2, v3]
             # print(positionDict)
             returnThisPositionDict.append(positionDict)
+
 
         return returnThisPositionDict
