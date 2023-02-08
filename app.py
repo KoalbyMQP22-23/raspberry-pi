@@ -1,4 +1,5 @@
 # import null as null
+import json
 import sys
 
 from flask import Flask, Response, request
@@ -106,7 +107,8 @@ def pre_recorded():
 @app.route("/sensor-data/")
 def sensor_data():
     data = sd.get_data()
-    return Response(data, mimetype="text/xml")
+    json_object = json.dumps(data)
+    return Response(json_object, mimetype="text/xml")
 
 
 @app.route("/walk-start/")
