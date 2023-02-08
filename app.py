@@ -7,29 +7,17 @@ import xmltodict
 
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
-from backend.Primitives.frontEndTest import frontEndTest
 from backend.simulation import sim as vrep
-from backend.KoalbyHumaniod.Sensors.sensorData import sensorData
+from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
+from backend.testing import runToTestKinematics
+from backend.Primitives import MovementManager
 
 app = Flask(__name__)
 
 robot = None
 pte = None
-fet = frontEndTest()
-sd = sensorData()
-
-WAVE, CLAP, HANDLOOP, WALK = "Wave", "Clap", "Hand Loop", "Walk"
-AVAILABLE_COMMANDS = {
-    'Wave': WAVE,
-    'Clap': CLAP,
-    'Hand Loop': HANDLOOP,
-    'Walk': WALK
-}
-BATTERY_LEVEL, IMU = "Battery Level", "IMU"
-AVAILABLE_COMMANDS_SENSORS = {
-    'Battery Level': BATTERY_LEVEL,
-    'IMU': IMU
-}
+sd = SensorData()
+client_id = -1
 
 
 @app.route("/")
@@ -41,13 +29,15 @@ def welcome():
 def init():
     global robot
     global pte
-    global sensorData
-    robot = RealRobot()
+    global sensor_data
+    try:
+        robot = RealRobot()
+    except FileNotFoundError:
+        return Response("0", mimetype="text/xml")
     pte = PrimitivesToExecute(robot)
     sd.init_robot(robot)
     return Response("1", mimetype="text/xml")
-    # initializes but doesn't change templates - needs to work same a simulation
-    # TODO: should be fine now - test it
+    # TODO: fix this. I'm not sure how to get the try catch to work
 
 
 @app.route("/shutoff")
@@ -61,7 +51,8 @@ def shutdown():
 def init_simulation():
     global robot
     global pte
-    global sensorData
+    global sensor_data
+    global client_id
     vrep.simxFinish(-1)  # just in case, close all opened connections
     client_id = vrep.simxStart('127.0.0.1', 19999, True, True, 5000, 5)
     print(client_id)  # if 1, then we are connected.
@@ -92,21 +83,24 @@ def home():
 
 @app.route("/home/pre-recorded/queue")
 def queue():
-    fet.print_list()
-    queue_list = fet.get_queue_list()
-    return render_template("queue.html", queueElements=queue_list)
+    return render_template("queue.html")
 
 
-@app.route("/run/<qList>")
-def run(qList=None):
-    print(qList)
-    # return qList
-    return Response(qList, mimetype="text/xml")
+@app.route("/run", methods=['POST'])
+def run():
+    global client_id
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/json':
+        qList = request.get_json()
+        MovementManager.split_list(robot, qList, 1, 1)
+        return Response("finished", mimetype="text/xml")
+    # return failure
+    return Response("failure", mimetype="text/xml")
 
 
 @app.route("/home/pre-recorded/")
 def pre_recorded():
-    return render_template("pre-recorded.html", commands=AVAILABLE_COMMANDS)
+    return render_template("pre-recorded.html")
 
 
 @app.route("/sensor-data/")
@@ -115,14 +109,20 @@ def sensor_data():
     return Response(data, mimetype="text/xml")
 
 
-@app.route('/home/pre-recorded/<cmd>')
-def command(cmd=None):
-    global pte
-    global fet
-    # pte = PrimitivesToExecute(robot)
-    # pte.add_to_list(cmd)
-    # fet.add_to_list(cmd)
-    return cmd, 200, {'Content-Type': 'text/plain'}
+@app.route("/walk-start/")
+def walk_start():
+    runToTestKinematics.play("walk", 1, 1, client_id)
+    return Response("Robot is Walking", mimetype="text/xml")
+
+
+# @app.route('/home/pre-recorded/<cmd>')
+# def command(cmd=None):
+#     global pte
+#     global fet
+#     # pte = PrimitivesToExecute(robot)
+#     # pte.add_to_list(cmd)
+#     # fet.add_to_list(cmd)
+#     return cmd, 200, {'Content-Type': 'text/plain'}
 
 
 @app.route("/record_new/")

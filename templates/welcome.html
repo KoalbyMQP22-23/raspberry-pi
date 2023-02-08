@@ -10,6 +10,11 @@ Welcome
     <a href = "" class="init-button" id="simulationButton">Simulation</a>
     <p id = "failureSpot"></p>
 <script>
+    function clearStorage(){
+        localStorage.clear()
+    }
+    window.onload = clearStorage
+
     var button = document.getElementById("initializeButton");
     button.addEventListener("click", function (e) {
         e.preventDefault();

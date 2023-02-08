@@ -23,6 +23,22 @@ class Robot(ABC):
     def shutdown(self):
         pass
 
+    @abstractmethod
+    def get_imu_data(self):
+        pass
+
+    @abstractmethod
+    def read_battery_level(self):
+        pass
+
+    @abstractmethod
+    def get_tf_luna_data(self):
+        pass
+
+    @abstractmethod
+    def get_husky_lens_data(self):
+        pass
+
 
 class SimRobot(Robot):
     def __init__(self, client_id):
@@ -54,7 +70,20 @@ class SimRobot(Robot):
     def shutdown(self):
         vrep.simxStopSimulation(self.client_id, vrep.simx_opmode_oneshot)
 
+    def get_imu_data(self):
+        raw_data = get_sim_imu_data(client_id)
+        for piece in raw_data:
+            if piece != 0:
+                data.append(piece)
 
+    def read_battery_level(self):
+        pass
+
+    def get_tf_luna_data(self):
+        pass
+
+    def get_husky_lens_data(self):
+        pass
 
 class RealRobot(Robot):
 
@@ -92,3 +121,18 @@ class RealRobot(Robot):
 
     def shutdown(self):
         self.arduino_serial.send_command('100')
+
+    def get_imu_data(self):
+        data = []
+        self.arduino_serial.send_command('41')  # reads IMU data
+        string_data = self.arduino_serial.read_command()
+        if string_data.__len__() == 0:
+            return
+        num_data = string_data.split(",")
+        for piece in num_data:
+            num_piece = float(piece)
+            if num_piece != 0:
+                data.append(num_piece)
+            else:
+                data.append(.01)
+        return data

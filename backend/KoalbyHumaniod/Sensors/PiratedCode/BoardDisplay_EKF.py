@@ -36,26 +36,7 @@ class ProjectionViewer:
                 if event.type == pygame.QUIT:
                     running = False
             self.clock.tick(loopRate)
-            data = []
-            if client_id != "":
-                raw_data = get_sim_imu_data(client_id)
-                for piece in raw_data:
-                    if piece != 0:
-                        data.append(piece)
-
-            else:
-                robot.arduino_serial.send_command('41')  # reads IMU data
-                string_data = robot.arduino_serial.read_command()
-                if string_data.__len__() == 0:
-                    continue
-                num_data = string_data.split(",")
-                for piece in num_data:
-                    num_piece = float(piece)
-                    if num_piece != 0:
-                        data.append(num_piece)
-                    else:
-                        data.append(.01)
-
+            data = robot.get_imu_data()
             if data.__len__() == 0 | data.__len__() != 9:  # error handling
                 continue
             self.wireframe.quatRotate([data[0], data[1], data[2]],  # gyro

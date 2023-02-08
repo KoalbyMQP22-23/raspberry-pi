@@ -13,40 +13,50 @@
 <div class="body-content">
     {% block content %}
     {% endblock %}
-    <div id = sensor-data-info>
-
-    </div>
-
     <div class="button_div">
-        <a href = "" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
+        <a href="" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
     </div>
     <div>
-        <a href="" class="button" id="sensorDataButton">Toggle Sensor Data</a>
+        <a href="" class="button" id="sensorDataButton">Show Sensor Data</a>
+        <a href="" class="button" id="hideSensorDataButton">Hide Sensor Data</a>
     </div>
-<script>
-    var button = document.getElementById("shutdownButton");
-    button.addEventListener("click", function (e) {
-        e.preventDefault();
-        const request = new XMLHttpRequest();
-        request.onload = function () {
-            window.location.replace("http://127.0.0.1:5000");
-        };
-        request.open("GET", "/shutoff", true);
-        request.send(); });
+    <div id=sensor-data-info>
 
-     var button = document.getElementById("sensorDataButton");
-    button.addEventListener("click", function (e) {
-        e.preventDefault();
-        const request = new XMLHttpRequest();
-        request.onload = function () {
-            document.getElementById("sensor-data-info").innerHTML = request.response
-        };
-        request.open("GET", "/sensor-data", true);
-        request.send(); });
-</script>
+    </div>
+    <script>
+
+        var button = document.getElementById("shutdownButton");
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const request = new XMLHttpRequest();
+            request.onload = function () {
+                window.location.replace("http://127.0.0.1:5000");
+            };
+            request.open("GET", "/shutoff", true);
+            request.send();
+        });
+
+        //TODO: hide these buttons on welcome page
+        var button = document.getElementById("sensorDataButton");
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            const request = new XMLHttpRequest();
+            request.onload = function () {
+                document.getElementById("sensor-data-info").innerHTML = request.response
+            };
+            request.open("GET", "/sensor-data", true);
+            request.send();
+        });
+
+        var button = document.getElementById("hideSensorDataButton");
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("sensor-data-info").innerHTML = "";
+        });
+    </script>
 
 
-    <hr/>
+    {#    <hr/>#}
 
     <footer>
     </footer>
