@@ -39,20 +39,7 @@ class ProjectionViewer:
                 if event.type == pygame.QUIT:
                     running = False
             self.clock.tick(loopRate)
-            # data = robot.get_imu_data()
-            data = []
-            robot.arduino_serial.send_command('41')  # reads IMU data
-            string_data = robot.arduino_serial.read_command()
-            if string_data.__len__() == 0:
-                # return
-                continue
-            num_data = string_data.split(",")
-            for piece in num_data:
-                num_piece = float(piece)
-                if num_piece != 0:
-                    data.append(num_piece)
-                else:
-                    data.append(.01)
+            data = robot.get_imu_data()
 
             if data.__len__() == 0 | data.__len__() != 9:  # error handling
                 continue
