@@ -19,8 +19,13 @@ def init_sim():
     else:
         sys.exit("Not connected to remote API server")
 
+robot = SimRobot(client_id)
 
+handle = vrep.simxGetObjectHandle(client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
 
+vrep.simxSetObjectFloatParameter(client_id, handle, vrep.sim_shapefloatparam_mass, 5, vrep.simx_opmode_blocking)
+
+trajPlanner = TrajPlanner()
 
 def play(replay_filename, legChoice, tf, client_id):
     robot = SimRobot(client_id)
@@ -40,11 +45,10 @@ def play(replay_filename, legChoice, tf, client_id):
         for key in dummy_position.keys():
             if key == '13' or key == '14' or key == '15':
                 intermediatePositionLeft.append(dummy_position[key])
-            if key == '18' or key == '19' or key == '20':
+            if key == '17' or key == '19' or key == '20':
                 intermediatePositionRight.append(dummy_position[key])
         leftLegPositions.append(intermediatePositionLeft)
         rightLegPositions.append(intermediatePositionRight)
-
     print(rightLegPositions)
     print(leftLegPositions)
 
@@ -54,15 +58,30 @@ def play(replay_filename, legChoice, tf, client_id):
         keys = [13, 14, 15]
     else:
         positionList = rightLegPositions
-        keys = [18, 19, 20]
+        keys = [17, 19, 20]
 
     t0 = 0
     v0 = 0
     vf = 0
 
-    iterateThroughThis = trajPlanner.execute_cubic_traj(positionList, keys, t0, tf, v0, vf)
+    numSteps = 0
+    while numSteps <= 6:
 
-    play_motion_kinematics(robot, iterateThroughThis)
+        iterateThroughThis = trajPlanner.execute_cubic_traj(positionList, keys, t0, tf, v0, vf)
+
+        play_motion_kinematics(robot, iterateThroughThis)
+
+        if legChoice == 1:
+            legChoice = 2
+            positionList = rightLegPositions
+            keys = [17, 19, 20]
+
+        elif legChoice == 2:
+            legChoice = 1
+            positionList = leftLegPositions
+            keys = [13, 14, 15]
+
+        numSteps = numSteps + 1
 
 
 if __name__ == "__main__":
