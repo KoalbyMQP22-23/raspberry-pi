@@ -6,7 +6,7 @@ from backend.simulation import sim as vrep
 from backend.KoalbyHumaniod.Robot import SimRobot
 
 
-def execute_movement(primitives_to_execute, robot):
+def execute_movement():
     poseTime = float(input("Enter pose time in seconds: "))
     poseDelay = float(input("Enter delay between pose time in seconds: "))
     fileName = str(input("Input saved file name to play back: "))

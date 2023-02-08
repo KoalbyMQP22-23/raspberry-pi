@@ -38,8 +38,8 @@ motors = [
 
     # Right Leg
     [16, [0, 0], 'Herk', 'Right_Thigh_Abductor_Joint'],
-    [17, [0, 0], 'Herk', 'Right_Thigh_Kick_Joint'],
-    [18, [0, 0], 'Dyn', 'Right_Thigh_Rotator_Joint'],
+    [17, [0, 0], 'Herk', 'Right_Thigh_Rotator_Joint'],
+    [18, [0, 0], 'Dyn', 'Right_Thigh_Kick_Joint'],
     [19, [0, 0], 'Herk', 'Right_Knee_Joint'],
     [20, [0, 0], 'Herk', 'Right_Ankle_Joint'],
 

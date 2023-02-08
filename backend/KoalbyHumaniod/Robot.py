@@ -4,6 +4,7 @@ import backend.KoalbyHumaniod.Config as config
 from backend.ArduinoSerial import ArduinoSerial
 from backend.KoalbyHumaniod.Motor import RealMotor, SimMotor, Motor
 from backend.simulation import sim as vrep
+from backend.KoalbyHumaniod.Sensors.PiratedCode import Wireframe_EKF as wf
 
 
 class Robot(ABC):
@@ -39,6 +40,10 @@ class Robot(ABC):
     def get_husky_lens_data(self):
         pass
 
+    @abstractmethod
+    def get_filtered_data(self):
+        pass
+
 
 class SimRobot(Robot):
     def __init__(self, client_id):
@@ -51,6 +56,9 @@ class SimRobot(Robot):
     def motors_init(self):
         motors = list()
         for motorConfig in config.motors:
+            handle = vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1]
+            vrep.simxSetObjectFloatParameter(self.client_id, handle, vrep.sim_shapefloatparam_mass, 5,
+                                             vrep.simx_opmode_blocking)
             motor = SimMotor(motorConfig[0],
                              vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1])
             setattr(SimRobot, motorConfig[3], motor)
@@ -91,6 +99,11 @@ class SimRobot(Robot):
 
     def get_husky_lens_data(self):
         pass
+
+    def get_filtered_data(self):
+        block = wf.Wireframe()
+        yaw, pitch, roll = block.getAttitude()
+        return yaw, pitch, roll
 
 
 class RealRobot(Robot):
@@ -158,3 +171,6 @@ class RealRobot(Robot):
     def get_husky_lens_data(self):
         self.arduino_serial.send_command("61")
         return self.arduino_serial.read_command()
+
+    def get_filtered_data(self):
+        pass
