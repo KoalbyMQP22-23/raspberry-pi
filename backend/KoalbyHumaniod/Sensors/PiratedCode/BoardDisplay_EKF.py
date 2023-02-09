@@ -28,7 +28,7 @@ class ProjectionViewer:
         pygame.font.init()
         self.font = pygame.font.SysFont('Comic Sans MS', 30)
 
-    def run(self, robot, client_id):
+    def run(self, robot, client_id, display):
         """ Create a pygame screen until it is closed. """
         running = True
         loopRate = 50
@@ -40,14 +40,15 @@ class ProjectionViewer:
                     running = False
             self.clock.tick(loopRate)
             data = robot.get_imu_data()
-
             if data.__len__() == 0 | data.__len__() != 9:  # error handling
                 continue
             self.wireframe.quatRotate([data[0], data[1], data[2]],  # gyro
                                       [data[3], data[4], data[5]],  # accele
                                       [data[6], data[7], data[8]],  # magnetometer
                                       1 / loopRate)
-            self.display()
+            if display == 1:
+                self.display()
+                pygame.display.flip()
             if loop_counter > 4:
                 loop_counter = 0
             else:
@@ -55,8 +56,8 @@ class ProjectionViewer:
                 do_work(yaw, pitch, roll, client_id)
                 loop_counter = loop_counter + 1
 
-            pygame.display.flip()
             i = i + 1
+        return self.wireframe.getAttitude()
 
     def display(self):
         """ Draw the wireframes on the screen. """
@@ -72,11 +73,11 @@ class ProjectionViewer:
                             (220, 20, 60))  # Crimson
         self.messageDisplay("Pitch: %.1f" % pitch,
                             self.screen.get_width() * 0.75,
-                            self.screen.get_height() * 0.05,
+                            self.screen.get_height() * 0.2,
                             (0, 255, 255))  # Cyan
         self.messageDisplay("Roll: %.1f" % roll,
                             self.screen.get_width() * 0.75,
-                            self.screen.get_height() * 0.1,
+                            self.screen.get_height() * .4,
                             (65, 105, 225))  # Royal Blue
 
         # Transform nodes to perspective view

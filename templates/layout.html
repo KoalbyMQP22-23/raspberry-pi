@@ -30,6 +30,43 @@
     <script>
 
         const ctx = document.getElementById('imu-chart');
+        var pitch = [];
+        var roll = [];
+        var yaw = [];
+        var numbers = [];
+        var i = 0;
+
+
+        const labels = numbers;
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Pitch',
+                    data: pitch,
+                    borderColor: 'red',
+                    backgroundColor: 'red',
+                    yAxisID: 'y',
+                },
+                {
+                    label: 'Roll',
+                    data: roll,
+                    borderColor: 'blue',
+                    backgroundColor: 'blue',
+                    yAxisID: 'y1',
+                },
+                {
+                    label: 'Yaw',
+                    data: yaw,
+                    borderColor: 'yellow',
+                    backgroundColor: 'yellow',
+                    yAxisID: 'y2',
+                }
+            ]
+        };
+
+        let charty = ''
+
 
         var shutdownButton = document.getElementById("shutdownButton");
         shutdownButton.addEventListener("click", function (e) {
@@ -45,58 +82,74 @@
         //TODO: hide these buttons on welcome page
         var sensorDataButton = document.getElementById("sensorDataButton");
         sensorDataButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                const jsonRes = JSON.parse(request.response);
-                {#console.log(jsonRes.pitch_roll_yaw);#}
-                document.getElementById("sensor-data-info").innerHTML = request.response
-                localStorage.setItem("pitch", localStorage.getItem("pitch") + "," + jsonRes.pitch_roll_yaw[0])
-                localStorage.setItem("roll", localStorage.getItem("roll") + "," + jsonRes.pitch_roll_yaw[1])
-                localStorage.setItem("yaw", localStorage.getItem("yaw") + "," + jsonRes.pitch_roll_yaw[2])
-                var pitch = [];
-                var stringPitch = localStorage.getItem("pitch").split(",");
-                console.log(stringPitch)
-                for(const i in stringPitch){
-                    pitch.push(parseInt(i));
-                }
+                e.preventDefault();
+                const request = new XMLHttpRequest();
+                request.onload = function () {
+                    const jsonRes = JSON.parse(request.response);
+                    document.getElementById("sensor-data-info").innerHTML = request.response
+                    pitch.push(jsonRes.pitch_roll_yaw[0]);
+                    roll.push(jsonRes.pitch_roll_yaw[1]);
+                    yaw.push(jsonRes.pitch_roll_yaw[2]);
+                    labels.push(i);
+                    i ++;
 
-                var roll = [];
-                for(const i in localStorage.getItem("roll").split(",")){
-                    roll.push(parseInt(i));
-                }
-                var yaw = [];
-                for(const i in localStorage.getItem("yaw").split(",")){
-                    yaw.push(parseInt(i));
-                }
-                new Chart(ctx, {
-            data: {
-                datasets: [{
-                    type: 'line',
-                    label: 'Pitch',
-                    data: [pitch]
-                }, {
-                    type: 'line',
-                    label: 'Roll',
-                    data: [roll]
-                }, {
-                    type: 'line',
-                    label: 'Yaw',
-                    data: [yaw]
+                    if (charty !== '') {
+                        charty.destroy()
+                    }
 
+                    charty = new Chart(ctx, {
+                        type: 'line',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            interaction: {
+                                mode: 'index',
+                                intersect: false,
+                            },
+                            stacked: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Chart.js Line Chart - Multi Axis'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    type: 'linear',
+                                    display: true,
+                                    position: 'left',
+                                },
+                                y1: {
+                                    type: 'linear',
+                                    display: false,
+                                    {#position: 'right',#}
+
+                                    // grid line settings
+                                    grid: {
+                                        drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                    },
+                                },
+                                y2: {
+                                    type: 'linear',
+                                    display: false,
+                                    {#position: 'right',#}
+
+                                    // grid line settings
+                                    grid: {
+                                        drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                    },
+                                },
+                            }
+
+                        }
+                    });
                 }
-                ],
-                labels: []
-            },
-            options: {
-                title: "Raw IMU Data"
+                ;
+                request.open("GET", "/sensor-data", true);
+                request.send();
             }
-        });
-
-            };
-            request.open("GET", "/sensor-data", true);
-            request.send();
-        });
+        )
+        ;
 
         var button = document.getElementById("hideSensorDataButton");
         button.addEventListener("click", function (e) {

@@ -19,13 +19,6 @@ def init_sim():
     else:
         sys.exit("Not connected to remote API server")
 
-robot = SimRobot(client_id)
-
-handle = vrep.simxGetObjectHandle(client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
-
-vrep.simxSetObjectFloatParameter(client_id, handle, vrep.sim_shapefloatparam_mass, 5, vrep.simx_opmode_blocking)
-
-trajPlanner = TrajPlanner()
 
 def play(replay_filename, legChoice, tf, client_id):
     robot = SimRobot(client_id)
@@ -85,8 +78,11 @@ def play(replay_filename, legChoice, tf, client_id):
 
 
 if __name__ == "__main__":
-    init_sim()
-    global client_id
+    client_id = init_sim()
+    robot = SimRobot(client_id)
+    handle = vrep.simxGetObjectHandle(client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
+    vrep.simxSetObjectFloatParameter(client_id, handle, vrep.sim_shapefloatparam_mass, 5, vrep.simx_opmode_blocking)
+    trajPlanner = TrajPlanner()
     replay_filename = str(input("Input saved file name to play back:"))
     legChoice = float(input("Enter 1 to move left leg or 2 to move right leg:"))
     tf = float(input("Enter trajectory time (seconds):"))
