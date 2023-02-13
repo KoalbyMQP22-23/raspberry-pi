@@ -6,6 +6,7 @@ from backend.KoalbyHumaniod.Motor import RealMotor, SimMotor
 from backend.simulation import sim as vrep
 from backend.KoalbyHumaniod.Sensors.PiratedCode import Kalman_EKF as km
 
+
 class Robot(ABC):
     def __init__(self):
         print("Robot Created and Initialized")
@@ -56,8 +57,11 @@ class SimRobot(Robot):
     def motors_init(self):
         motors = list()
         for motorConfig in config.motors:
-            handle = vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1]
-            vrep.simxSetObjectFloatParameter(self.client_id, handle, vrep.sim_shapefloatparam_mass, 1,
+            # handle = vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1]
+            print(self.client_id)
+            vrep.simxSetObjectFloatParameter(self.client_id, vrep.simxGetObjectHandle(self.client_id, motorConfig[3],
+                                                                                      vrep.simx_opmode_blocking)[1],
+                                             vrep.sim_shapefloatparam_mass, 1,
                                              vrep.simx_opmode_blocking)
             motor = SimMotor(motorConfig[0],
                              vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1])
@@ -79,12 +83,13 @@ class SimRobot(Robot):
         vrep.simxStopSimulation(self.client_id, vrep.simx_opmode_oneshot)
 
     def get_imu_data(self):
-        data = [vrep.simxGetFloatSignal(self.client_id, "gyroX", vrep.simx_opmode_streaming)[1]+.001,
-                vrep.simxGetFloatSignal(self.client_id, "gyroY", vrep.simx_opmode_streaming)[1]+.001,
-                vrep.simxGetFloatSignal(self.client_id, "gyroZ", vrep.simx_opmode_streaming)[1]+.001,
-                vrep.simxGetFloatSignal(self.client_id, "accelerometerX", vrep.simx_opmode_streaming)[1]+.001,
-                vrep.simxGetFloatSignal(self.client_id, "accelerometerY", vrep.simx_opmode_streaming)[1]+.001,
-                vrep.simxGetFloatSignal(self.client_id, "accelerometerZ", vrep.simx_opmode_streaming)[1]+.001, 1, 1, 1]
+        data = [vrep.simxGetFloatSignal(self.client_id, "gyroX", vrep.simx_opmode_streaming)[1] + .001,
+                vrep.simxGetFloatSignal(self.client_id, "gyroY", vrep.simx_opmode_streaming)[1] + .001,
+                vrep.simxGetFloatSignal(self.client_id, "gyroZ", vrep.simx_opmode_streaming)[1] + .001,
+                vrep.simxGetFloatSignal(self.client_id, "accelerometerX", vrep.simx_opmode_streaming)[1] + .001,
+                vrep.simxGetFloatSignal(self.client_id, "accelerometerY", vrep.simx_opmode_streaming)[1] + .001,
+                vrep.simxGetFloatSignal(self.client_id, "accelerometerZ", vrep.simx_opmode_streaming)[1] + .001, 1, 1,
+                1]
         # have to append 1 for magnetometer data because there isn't one in CoppeliaSim
         return data
 
@@ -103,10 +108,10 @@ class SimRobot(Robot):
     def get_filtered_data(self, data):
 
         w = [data[0], data[1], data[2]]  # gyro
-        dt = 1/50
+        dt = 1 / 50
         a = [data[3], data[4], data[5]]  # accele
-        m = [data[6], data[7], data[8]] # magnetometer
-        #quat rotate
+        m = [data[6], data[7], data[8]]  # magnetometer
+        # quat rotate
         self.sys.predict(w, dt)  # w = gyroscope
         self.sys.update(a, m)  # a = acceleration, m = magnetometer
         return km.getEulerAngles(self.sys.xHat[0:4])

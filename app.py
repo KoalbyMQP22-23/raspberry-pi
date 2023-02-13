@@ -12,6 +12,7 @@ from backend.simulation import sim as vrep
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.testing import runToTestKinematics
 from backend.Primitives import MovementManager
+from backend.testing.runToTestKinematics import Walker
 
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ robot = None
 pte = None
 sd = SensorData()
 client_id = -1
+walker = None
 
 
 @app.route("/")
@@ -113,9 +115,16 @@ def sensor_data():
 
 @app.route("/walk-start/")
 def walk_start():
-    runToTestKinematics.play("walk", 1, 1, client_id)
-    return Response("Robot is Walking", mimetype="text/xml")
+    global walker
+    walker = Walker(True)
+    walker.play("walk", 1, 1, robot)
+    return Response("Robot finished walking", mimetype="text/xml")
 
+@app.route("/walk-stop/")
+def walk_stop():
+    global walker
+    walker.isWalking = False
+    return Response("Robot stopped walking", mimetype="text/xml")
 
 # @app.route('/home/pre-recorded/<cmd>')
 # def command(cmd=None):
