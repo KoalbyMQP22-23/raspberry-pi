@@ -49,12 +49,13 @@ class Walker:
         print(rightLegPositions)
         print(leftLegPositions)
 
+
         if legChoice == 1:
             positionList = leftLegPositions
             keys = [13, 14, 15]
         else:
             positionList = rightLegPositions
-            keys = [17, 19, 20]
+            keys = [18, 19, 20]
 
         t0 = 0
         v0 = 0
@@ -67,11 +68,13 @@ class Walker:
             iterateThroughThis = trajPlanner.execute_cubic_traj(positionList, keys, t0, tf, v0, vf)
 
             play_motion_kinematics(robot, iterateThroughThis)
+            
+
 
             if legChoice == 1:
                 legChoice = 2
                 positionList = rightLegPositions
-                keys = [17, 19, 20]
+                keys = [18, 19, 20]
 
             elif legChoice == 2:
                 legChoice = 1
@@ -80,11 +83,13 @@ class Walker:
 
 
 if __name__ == "__main__":
+
     walker = Walker(True)
     walker.init_sim()
     robot = SimRobot(walker.client_id)
     handle = vrep.simxGetObjectHandle(walker.client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
     vrep.simxSetObjectFloatParameter(walker.client_id, handle, vrep.sim_shapefloatparam_mass, 5, vrep.simx_opmode_blocking)
+
     trajPlanner = TrajPlanner()
     replay_filename = str(input("Input saved file name to play back:"))
     legChoice = float(input("Enter 1 to move left leg or 2 to move right leg:"))
