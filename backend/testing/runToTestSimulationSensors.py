@@ -22,4 +22,6 @@ def run_sim_sensors():
     block = initializeCube()
     pv = ProjectionViewer(640, 480, block)
     print("This will go on forever. Simulation and code needs to be manually stopped")
-    pv.run(robot, client_id)
+    pv.run(robot, client_id, 1)
+
+run_sim_sensors()

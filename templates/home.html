@@ -31,5 +31,17 @@
             request.open("GET", "/walk-start", true);
             request.send();
         });
+
+        var button = document.getElementById("stopWalk");
+        button.addEventListener("click", function (e) {
+            console.log("Finishing walk");
+            e.preventDefault();
+            const request = new XMLHttpRequest();
+            request.onload = function () {
+                document.getElementById('walkMessage').innerHTML = request.response;
+            };
+            request.open("GET", "/walk-stop", true);
+            request.send();
+        });
     </script>
 {% endblock %}
