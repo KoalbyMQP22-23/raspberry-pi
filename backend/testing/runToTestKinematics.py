@@ -21,7 +21,6 @@ class Walker:
         else:
             sys.exit("Not connected to remote API server")
 
-
     def play(self, replay_filename, legChoice, tf, robot):
         # robot = SimRobot(self.client_id)
         trajPlanner = TrajPlanner()
@@ -49,7 +48,6 @@ class Walker:
         print(rightLegPositions)
         print(leftLegPositions)
 
-
         if legChoice == 1:
             positionList = leftLegPositions
             keys = [13, 14, 15]
@@ -68,8 +66,6 @@ class Walker:
             iterateThroughThis = trajPlanner.execute_cubic_traj(positionList, keys, t0, tf, v0, vf)
 
             play_motion_kinematics(robot, iterateThroughThis)
-            
-
 
             if legChoice == 1:
                 legChoice = 2
@@ -83,12 +79,12 @@ class Walker:
 
 
 if __name__ == "__main__":
-
     walker = Walker(True)
     walker.init_sim()
     robot = SimRobot(walker.client_id)
     handle = vrep.simxGetObjectHandle(walker.client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
-    vrep.simxSetObjectFloatParameter(walker.client_id, handle, vrep.sim_shapefloatparam_mass, 5, vrep.simx_opmode_blocking)
+    vrep.simxSetObjectFloatParameter(walker.client_id, handle, vrep.sim_shapefloatparam_mass, 5,
+                                     vrep.simx_opmode_blocking)
 
     trajPlanner = TrajPlanner()
     replay_filename = str(input("Input saved file name to play back:"))

@@ -7,6 +7,7 @@ from flask import render_template
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
+from backend.Primitives.MovementManager import Hand
 from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.simulation import sim as vrep
 from backend.testing.runToTestKinematics import Walker
@@ -18,6 +19,7 @@ pte = None
 sd = SensorData()
 client_id = -1
 walker = None
+hand = None
 
 
 @app.route("/")
@@ -76,11 +78,6 @@ def home():
     return render_template("home.html")
 
 
-# @app.route("/home/pre_recorded/queue/<cmd>")
-# def queue():
-#     return render_template("queue.html", commands=AVAILABLE_COMMANDS_QUEUE)
-
-
 @app.route("/home/pre-recorded/queue")
 def queue():
     return render_template("queue.html")
@@ -123,6 +120,24 @@ def walk_stop():
     global walker
     walker.isWalking = False
     return Response("Robot stopped walking", mimetype="text/xml")
+
+
+@app.route("/open-hand/")
+def open_hand():
+    robot.open_hand()
+    return Response("Opening Hand", mimetype="text/xml")
+
+
+@app.route("/open-hand/")
+def stop_hand():
+    robot.stop_hand()
+    return Response("Stopping Hand", mimetype="text/xml")
+
+
+@app.route("/close-hand/")
+def close_hand():
+    robot.close_hand()
+    return Response("Closing Hand", mimetype="text/xml")
 
 
 # @app.route('/home/pre-recorded/<cmd>')

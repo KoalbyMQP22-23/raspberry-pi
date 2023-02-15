@@ -30,8 +30,8 @@ motors = [
     [4, [0, 0], 'Herk', 'Left_Elbow_Joint'],
 
     # Torso
-    [21, [0, 0], 'Dyn', 'Lower_Torso_Front2Back_Joint'],
-    [22, [0, 0], 'Dyn', 'Chest_Side2Side_Joint'],
+    [21, [0, 0], 'Herk', 'Lower_Torso_Front2Back_Joint'],
+    [22, [0, 0], 'Herk', 'Chest_Side2Side_Joint'],
     [10, [0, 0], 'Herk', 'Upper_Torso_RotatorJoint'],
     [9, [0, 0], 'Herk', 'Lower_Torso_Side2Side_Joint'],
     [8, [0, 0], 'Herk', 'Upper_Torso_Rotator_Joint'],
