@@ -1,17 +1,14 @@
 # import null as null
 import json
-import sys
 
 from flask import Flask, Response, request
 from flask import render_template
-import xmltodict
 
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
+from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
+from backend.Primitives import MovementManager
 from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.simulation import sim as vrep
-from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
-from backend.testing import runToTestKinematics
-from backend.Primitives import MovementManager
 from backend.testing.runToTestKinematics import Walker
 
 app = Flask(__name__)
@@ -120,11 +117,13 @@ def walk_start():
     walker.play("walk", 1, 1, robot)
     return Response("Robot finished walking", mimetype="text/xml")
 
+
 @app.route("/walk-stop/")
 def walk_stop():
     global walker
     walker.isWalking = False
     return Response("Robot stopped walking", mimetype="text/xml")
+
 
 # @app.route('/home/pre-recorded/<cmd>')
 # def command(cmd=None):

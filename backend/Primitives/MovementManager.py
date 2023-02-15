@@ -18,14 +18,14 @@ def split_list(robot, primitive_list, pose_time, pose_delay):
 
 def play_motion(robot, file_name, pose_time, pose_delay):
     pose_time_millis = int((pose_time - 0.005) * 1000)
-    long_file_name = "/Applications/PyCharm.app/PycharmProjects/flaskProject/backend/Primitives/poses/" + file_name
+    # long_file_name = "/Applications/PyCharm.app/PycharmProjects/flaskProject/backend/Primitives/poses/" + file_name
+    long_file_name = "./flaskProject/backend/Primitives/poses/" + file_name
     with open(long_file_name) as f:
         csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                               for row in
                               csv.DictReader(f, skipinitialspace=True)]
     for poseMotorPositionsDict in csv_recorded_poses:
         motor_positions_dict = poseMotorPositionsDict
-        # TODO: kinematics
         robot.update_motors(pose_time_millis, motor_positions_dict)
         time.sleep(pose_time + pose_delay)
 
