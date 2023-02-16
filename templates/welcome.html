@@ -9,6 +9,7 @@ Welcome
     <a href = "" class="init-button" id="initializeButton">Initialize</a>
     <a href = "" class="init-button" id="simulationButton">Simulation</a>
     <p id = "failureSpot"></p>
+    <div id="loader" style="display: none" class="loader"></div>
 <script>
     function clearStorage(){
         localStorage.clear()
@@ -18,10 +19,12 @@ Welcome
     var button = document.getElementById("initializeButton");
     button.addEventListener("click", function (e) {
         e.preventDefault();
+        document.getElementById("loader").style.display = "block"
         const request = new XMLHttpRequest();
         request.onload = function () {
             console.log(request.response);
             if (request.response === "0"){
+                document.getElementById("loader").style.display = "none"
                 document.getElementById("failureSpot").innerHTML = "Not connected to robot"
             }
             else{
@@ -35,11 +38,12 @@ Welcome
     var button = document.getElementById("simulationButton");
     button.addEventListener("click", function (e) {
         e.preventDefault();
-
+        document.getElementById("loader").style.display = "block"
         const request = new XMLHttpRequest();
         request.onload = function () {
             console.log(request.response);
             if (request.response === "0"){
+                document.getElementById("loader").style.display = "none"
                 document.getElementById("failureSpot").innerHTML = "Not connected to remote API server"
             }
             else{

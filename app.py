@@ -7,7 +7,6 @@ from flask import render_template
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
-from backend.Primitives.MovementManager import Hand
 from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.simulation import sim as vrep
 from backend.testing.runToTestKinematics import Walker
@@ -32,10 +31,10 @@ def init():
     global robot
     global pte
     global sensor_data
-    try:
-        robot = RealRobot()
-    except FileNotFoundError:
-        return Response("0", mimetype="text/xml")
+    # try:
+    robot = RealRobot()
+    # except FileNotFoundError:
+    #     return Response("0", mimetype="text/xml")
     pte = PrimitivesToExecute(robot)
     sd.init_robot(robot)
     return Response("1", mimetype="text/xml")
@@ -100,6 +99,25 @@ def pre_recorded():
     return render_template("pre-recorded.html")
 
 
+@app.route("/home/record-new/")
+def record_new():
+    return render_template("record-new.html")
+
+
+@app.route("/record-one-new/", methods=['POST'])
+def record_one_new():
+    global client_id
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/json':
+        file_and_first = request.get_json()
+        file_name = file_and_first["fileName"]
+        first = file_and_first["firstTime"]
+        MovementManager.record_motion_ui(robot, file_name, first)
+        return Response("Finished Recording", mimetype="text/xml")
+    # return failure
+    return Response("failure", mimetype="text/xml")
+
+
 @app.route("/sensor-data/")
 def sensor_data():
     data = sd.get_data()
@@ -139,17 +157,3 @@ def close_hand():
     robot.close_hand()
     return Response("Closing Hand", mimetype="text/xml")
 
-
-# @app.route('/home/pre-recorded/<cmd>')
-# def command(cmd=None):
-#     global pte
-#     global fet
-#     # pte = PrimitivesToExecute(robot)
-#     # pte.add_to_list(cmd)
-#     # fet.add_to_list(cmd)
-#     return cmd, 200, {'Content-Type': 'text/plain'}
-
-
-@app.route("/record_new/")
-def record_new():
-    return render_template("record_new.html")

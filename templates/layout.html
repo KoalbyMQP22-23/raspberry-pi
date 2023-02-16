@@ -86,6 +86,7 @@
                 const request = new XMLHttpRequest();
                 request.onload = function () {
                     const jsonRes = JSON.parse(request.response);
+
                     document.getElementById("sensor-data-info").innerHTML = request.response
                     pitch.push(jsonRes.pitch_roll_yaw[0]);
                     roll.push(jsonRes.pitch_roll_yaw[1]);
@@ -147,9 +148,7 @@
                 ;
                 request.open("GET", "/sensor-data", true);
                 request.send();
-            }
-        )
-        ;
+            });
 
         var button = document.getElementById("hideSensorDataButton");
         button.addEventListener("click", function (e) {

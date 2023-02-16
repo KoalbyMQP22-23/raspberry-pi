@@ -65,7 +65,7 @@ class SimRobot(Robot):
         self.is_real = False
         self.motors = self.motors_init()
         self.sys = km.System()
-        print(client_id)
+        # print(client_id)
 
     def motors_init(self):
         motors = list()

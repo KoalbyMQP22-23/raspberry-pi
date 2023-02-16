@@ -4,7 +4,8 @@ from backend.Primitives.MovementManager import record_motion
 
 def record_movement():
     robot = RealRobot
-    record_motion(robot)
+    pose_num = int(input("Input number of poses desired:"))
+    record_motion(robot, pose_num)
 
 
 record_movement()
