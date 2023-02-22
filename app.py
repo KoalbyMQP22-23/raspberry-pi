@@ -4,7 +4,6 @@ import sys
 
 from flask import Flask, Response, request
 from flask import render_template
-import xmltodict
 
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
@@ -113,14 +112,14 @@ def sensor_data():
     return Response(json_object, mimetype="text/xml")
 
 
-@app.route("/walk-start/")
+@app.route("/rightWalk-start/")
 def walk_start():
     global walker
     walker = Walker(True)
-    walker.play("walk", 1, 1, robot)
+    walker.play("rightWalk", 1, 1, robot)
     return Response("Robot finished walking", mimetype="text/xml")
 
-@app.route("/walk-stop/")
+@app.route("/rightWalk-stop/")
 def walk_stop():
     global walker
     walker.isWalking = False

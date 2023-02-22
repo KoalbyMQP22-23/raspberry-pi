@@ -58,7 +58,7 @@ class SimRobot(Robot):
         motors = list()
         for motorConfig in config.motors:
             # handle = vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1]
-            print(self.client_id)
+            # print(self.client_id)
             vrep.simxSetObjectFloatParameter(self.client_id, vrep.simxGetObjectHandle(self.client_id, motorConfig[3],
                                                                                       vrep.simx_opmode_blocking)[1],
                                              vrep.sim_shapefloatparam_mass, 1,
