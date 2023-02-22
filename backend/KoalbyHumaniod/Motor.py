@@ -31,7 +31,7 @@ class SimMotor(Motor):
     def set_position(self, position, client_id):
         """sends a desired motor position to the simulation"""
         # idk why you have to divide the motor position by a constant but it freaks out if not
-        vrep.simxSetJointTargetPosition(client_id, self.handle, position/40, vrep.simx_opmode_streaming)
+        vrep.simxSetJointTargetPosition(client_id, self.handle, position / 40, vrep.simx_opmode_streaming)
         # pose_time not used -- could do something with velocity but unsure if its necessary to go through
 
 
@@ -54,6 +54,16 @@ class RealMotor(Motor):
         """sends a desired motor position to the arduino"""
         position = int(position)
         id_pos_arr = [10, self.motor_id, position]
+        self.arduino_serial.send_command(','.join(map(str, id_pos_arr)) + ',')
+
+    def rotation_on(self, speed):
+        """sends a desired motor speed to the arduino"""
+        id_pos_arr = [74, self.motor_id, speed]
+        self.arduino_serial.send_command(','.join(map(str, id_pos_arr)) + ',')
+
+    def rotation_off(self):
+        """sends a desired motor speed to the arduino"""
+        id_pos_arr = [76, self.motor_id, 0]
         self.arduino_serial.send_command(','.join(map(str, id_pos_arr)) + ',')
 
     def set_position_time(self, position, time):

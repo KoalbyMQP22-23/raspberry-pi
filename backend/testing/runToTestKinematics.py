@@ -22,6 +22,7 @@ class Walker:
             sys.exit("Not connected to remote API server")
 
     # def play(self, replay_filename, legChoice, tf, robot):
+    # def play(self, replay_filename, legChoice, tf, robot):
     def play(self, legChoice, tf, robot):
         # robot = SimRobot(self.client_id)
         # trajPlanner = TrajPlanner()
@@ -73,6 +74,7 @@ class Walker:
         print(rightLegPositions2)
         print(leftLegPositions2)
 
+
         if legChoice == 1:
             legChoice = 2
             positionList = leftLegPositions
@@ -105,8 +107,9 @@ class Walker:
 
             print("iterateThroughThisFinal")
             print(iterateThroughThisFinal)
+            play_motion_kinematics(robot, iterateThroughThis)
 
-            play_motion_kinematics(robot, iterateThroughThisFinal)
+            # play_motion_kinematics(robot, iterateThroughThisFinal)
             # play_motion_kinematics(robot, iterateThroughThis2)
 
             # play_motion_kinematics(robot, iterateThroughThisFinal)
@@ -117,12 +120,12 @@ class Walker:
                 positionList2 = rightLegPositions
                 keys = [13, 14, 15]
                 keys2 = [18, 19, 20]
-            else:
-                legChoice = 1
-                positionList = rightLegPositions2
-                positionList2 = leftLegPositions2
-                keys = [18, 19, 20]
-                keys2 = [13, 14, 15]
+            # else:
+            #     legChoice = 1
+            #     positionList = rightLegPositions2
+            #     positionList2 = leftLegPositions2
+            #     keys = [18, 19, 20]
+            #     keys2 = [13, 14, 15]
 
 
 if __name__ == "__main__":
@@ -130,6 +133,10 @@ if __name__ == "__main__":
     walker.init_sim()
     robot = SimRobot(walker.client_id)
     handle = vrep.simxGetObjectHandle(walker.client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
+    vrep.simxSetObjectFloatParameter(walker.client_id, handle, vrep.sim_shapefloatparam_mass, 5,
+                                     vrep.simx_opmode_blocking)
+
+    # vrep.setArrayParameter(sim.arrayparam_gravity, {gx, gy, gz})
     vrep.simxSetObjectFloatParameter(walker.client_id, handle, vrep.sim_shapefloatparam_mass, 5,
                                      vrep.simx_opmode_blocking)
 

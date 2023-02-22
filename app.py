@@ -1,16 +1,14 @@
 # import null as null
 import json
-import sys
 
 from flask import Flask, Response, request
 from flask import render_template
 
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
+from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
+from backend.Primitives import MovementManager
 from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.simulation import sim as vrep
-from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
-from backend.testing import runToTestKinematics
-from backend.Primitives import MovementManager
 from backend.testing.runToTestKinematics import Walker
 
 app = Flask(__name__)
@@ -20,6 +18,7 @@ pte = None
 sd = SensorData()
 client_id = -1
 walker = None
+hand = None
 
 
 @app.route("/")
@@ -32,10 +31,10 @@ def init():
     global robot
     global pte
     global sensor_data
-    try:
-        robot = RealRobot()
-    except FileNotFoundError:
-        return Response("0", mimetype="text/xml")
+    # try:
+    robot = RealRobot()
+    # except FileNotFoundError:
+    #     return Response("0", mimetype="text/xml")
     pte = PrimitivesToExecute(robot)
     sd.init_robot(robot)
     return Response("1", mimetype="text/xml")
@@ -78,11 +77,6 @@ def home():
     return render_template("home.html")
 
 
-# @app.route("/home/pre_recorded/queue/<cmd>")
-# def queue():
-#     return render_template("queue.html", commands=AVAILABLE_COMMANDS_QUEUE)
-
-
 @app.route("/home/pre-recorded/queue")
 def queue():
     return render_template("queue.html")
@@ -105,6 +99,25 @@ def pre_recorded():
     return render_template("pre-recorded.html")
 
 
+@app.route("/home/record-new/")
+def record_new():
+    return render_template("record-new.html")
+
+
+@app.route("/record-one-new/", methods=['POST'])
+def record_one_new():
+    global client_id
+    content_type = request.headers.get('Content-Type')
+    if content_type == 'application/json':
+        file_and_first = request.get_json()
+        file_name = file_and_first["fileName"]
+        first = file_and_first["firstTime"]
+        MovementManager.record_motion_ui(robot, file_name, first)
+        return Response("Finished Recording", mimetype="text/xml")
+    # return failure
+    return Response("failure", mimetype="text/xml")
+
+
 @app.route("/sensor-data/")
 def sensor_data():
     data = sd.get_data()
@@ -119,22 +132,32 @@ def walk_start():
     walker.play("rightWalk", 1, 1, robot)
     return Response("Robot finished walking", mimetype="text/xml")
 
+
+@app.route("/walk-stop/")
 @app.route("/rightWalk-stop/")
 def walk_stop():
     global walker
     walker.isWalking = False
     return Response("Robot stopped walking", mimetype="text/xml")
 
-# @app.route('/home/pre-recorded/<cmd>')
-# def command(cmd=None):
-#     global pte
-#     global fet
-#     # pte = PrimitivesToExecute(robot)
-#     # pte.add_to_list(cmd)
-#     # fet.add_to_list(cmd)
-#     return cmd, 200, {'Content-Type': 'text/plain'}
+
+@app.route("/open-hand/")
+def open_hand():
+    robot.open_hand()
+    return Response("Opening Hand", mimetype="text/xml")
 
 
-@app.route("/record_new/")
-def record_new():
-    return render_template("record_new.html")
+@app.route("/open-hand/")
+def stop_hand():
+    robot.stop_hand()
+    return Response("Stopping Hand", mimetype="text/xml")
+
+
+@app.route("/close-hand/")
+def close_hand():
+    robot.close_hand()
+    return Response("Closing Hand", mimetype="text/xml")
+
+
+if __name__ == '__main__':
+    app.run(host='172.20.10.2', port=5000, debug=True, threaded=False)  # use rasPi IP address here
