@@ -151,8 +151,8 @@ class RealRobot(Robot):
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
         self.arduino_serial.send_command('40')  # Init IMU
         self.arduino_serial.send_command('50')  # Init TFLuna
-        print(self.arduino_serial.read_command()) # TODO: test if this prints out tfluna init lines
-        print(self.arduino_serial.read_command())
+        # print(self.arduino_serial.read_command()) # TODO: test if this prints out tfluna init lines
+        # print(self.arduino_serial.read_command())
         self.arduino_serial.send_command('60')  # Init HuskyLens
         self.left_hand_motor = None
 

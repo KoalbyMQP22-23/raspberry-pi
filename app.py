@@ -157,3 +157,6 @@ def close_hand():
     robot.close_hand()
     return Response("Closing Hand", mimetype="text/xml")
 
+
+if __name__ == '__main__':
+    app.run(host='172.20.10.2', port=5000, debug=True, threaded=False)  # use rasPi IP address here

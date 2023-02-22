@@ -25,7 +25,16 @@
         <canvas id="imu-chart"></canvas>
     </div>
     <div id=sensor-data-info>
+        <p id="battery-level"></p>
 
+        <p>Battery Level</p>
+        <div class="container">
+            <div id="battery-level-bar" class="battery">0%</div>
+        </div>
+        <p id="tf-luna-dist"></p>
+        <p id="raw-imu"></p>
+        <p id="pitch-roll-yaw"></p>
+        <p id="husky-lens"></p>
     </div>
     <script>
 
@@ -53,14 +62,14 @@
                     data: roll,
                     borderColor: 'blue',
                     backgroundColor: 'blue',
-                    yAxisID: 'y1',
+                    yAxisID: 'y',
                 },
                 {
                     label: 'Yaw',
                     data: yaw,
                     borderColor: 'yellow',
                     backgroundColor: 'yellow',
-                    yAxisID: 'y2',
+                    yAxisID: 'y',
                 }
             ]
         };
@@ -79,82 +88,75 @@
             request.send();
         });
 
-        //TODO: hide these buttons on welcome page
-        var sensorDataButton = document.getElementById("sensorDataButton");
-        sensorDataButton.addEventListener("click", function (e) {
-                e.preventDefault();
-                const request = new XMLHttpRequest();
-                request.onload = function () {
-                    const jsonRes = JSON.parse(request.response);
+        function updateData() {
+            const request = new XMLHttpRequest();
+            request.onload = function () {
+                const jsonRes = JSON.parse(request.response);
+                document.getElementById("battery-level").innerHTML = "Battery Level is: " + jsonRes.battery_level;
+                document.getElementById("tf-luna-dist").innerHTML = "TF Luna Distance is: " + jsonRes.tf_luna_data;
+                document.getElementById("raw-imu").innerHTML = "Raw IMU Data is: " + jsonRes.imu_data[0] + ", " + jsonRes.imu_data[1] + ", " + jsonRes.imu_data[2];
+                document.getElementById("pitch-roll-yaw").innerHTML = "Pitch is: " + jsonRes.pitch_roll_yaw[0] + ", Roll is: " + jsonRes.pitch_roll_yaw[1] + ", and Yaw is: " + jsonRes.pitch_roll_yaw[2];
+                document.getElementById("husky-lens").innerHTML = "Husky Lens Data is: " + jsonRes.husky_lens_data;
+                document.getElementById("battery-level-bar").innerHTML = jsonRes.battery_level + "%";
+                document.getElementById("battery-level-bar").style.width = '88';
+                {#document.getElementById("sensor-data-info").innerHTML = request.response#}
+                pitch.push(jsonRes.pitch_roll_yaw[0]);
+                roll.push(jsonRes.pitch_roll_yaw[1]);
+                yaw.push(jsonRes.pitch_roll_yaw[2]);
+                labels.push(i);
+                i++;
 
-                    document.getElementById("sensor-data-info").innerHTML = request.response
-                    pitch.push(jsonRes.pitch_roll_yaw[0]);
-                    roll.push(jsonRes.pitch_roll_yaw[1]);
-                    yaw.push(jsonRes.pitch_roll_yaw[2]);
-                    labels.push(i);
-                    i ++;
+                if (charty !== '') {
+                    charty.destroy()
+                }
 
-                    if (charty !== '') {
-                        charty.destroy()
-                    }
-
-                    charty = new Chart(ctx, {
-                        type: 'line',
-                        data: data,
-                        options: {
-                            responsive: true,
-                            interaction: {
-                                mode: 'index',
-                                intersect: false,
-                            },
-                            stacked: false,
-                            plugins: {
-                                title: {
-                                    display: true,
-                                    text: 'Chart.js Line Chart - Multi Axis'
-                                }
-                            },
-                            scales: {
-                                y: {
-                                    type: 'linear',
-                                    display: true,
-                                    position: 'left',
-                                },
-                                y1: {
-                                    type: 'linear',
-                                    display: false,
-                                    {#position: 'right',#}
-
-                                    // grid line settings
-                                    grid: {
-                                        drawOnChartArea: false, // only want the grid lines for one axis to show up
-                                    },
-                                },
-                                y2: {
-                                    type: 'linear',
-                                    display: false,
-                                    {#position: 'right',#}
-
-                                    // grid line settings
-                                    grid: {
-                                        drawOnChartArea: false, // only want the grid lines for one axis to show up
-                                    },
-                                },
+                charty = new Chart(ctx, {
+                    type: 'line',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        stacked: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Chart.js Line Chart - Multi Axis'
                             }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                            },
 
                         }
-                    });
-                }
-                ;
-                request.open("GET", "/sensor-data", true);
-                request.send();
-            });
+
+                    }
+                });
+            };
+            request.open("GET", "/sensor-data", true);
+            request.send();
+            setTimeout(updateData, 2000)
+        }
+
+        window.onclick = updateData
+
+        var sensorDataButton = document.getElementById("sensorDataButton");
+        sensorDataButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("sensor-data-info").style.display = "block";
+            document.getElementById("imu-chart").style.display = "block";
+        });
 
         var button = document.getElementById("hideSensorDataButton");
         button.addEventListener("click", function (e) {
             e.preventDefault();
-            document.getElementById("sensor-data-info").innerHTML = "";
-            document.getElementById("imu-chart").innerHTML = "";
+            document.getElementById("sensor-data-info").style.display = "none";
+            document.getElementById("imu-chart").style.display = "none";
         });
     </script>
 

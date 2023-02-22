@@ -14,7 +14,13 @@ Welcome
     function clearStorage(){
         localStorage.clear()
     }
+    function hideButtons(){
+        document.getElementById("sensorDataButton").style.display = "none";
+        document.getElementById("hideSensorDataButton").style.display = "none";
+    }
     window.onload = clearStorage
+    window.onload = hideButtons
+
 
     var button = document.getElementById("initializeButton");
     button.addEventListener("click", function (e) {

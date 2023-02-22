@@ -86,6 +86,8 @@ if __name__ == "__main__":
     vrep.simxSetObjectFloatParameter(walker.client_id, handle, vrep.sim_shapefloatparam_mass, 5,
                                      vrep.simx_opmode_blocking)
 
+    # vrep.setArrayParameter(sim.arrayparam_gravity, {gx, gy, gz})
+
     trajPlanner = TrajPlanner()
     replay_filename = str(input("Input saved file name to play back:"))
     legChoice = float(input("Enter 1 to move left leg or 2 to move right leg:"))
