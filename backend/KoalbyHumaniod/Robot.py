@@ -44,21 +44,33 @@ class Robot(ABC):
     def get_filtered_data(self, data):
         pass
 
+    @abstractmethod
+    def open_hand(self):
+        pass
+
+    @abstractmethod
+    def close_hand(self):
+        pass
+
+    @abstractmethod
+    def stop_hand(self):
+        pass
+
 
 class SimRobot(Robot):
     def __init__(self, client_id):
         super().__init__()
         self.client_id = client_id
         self.primitives = []
+        self.is_real = False
         self.motors = self.motors_init()
         self.sys = km.System()
-        print(client_id)
+        # print(client_id)
 
     def motors_init(self):
         motors = list()
         for motorConfig in config.motors:
             # handle = vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1]
-            print(self.client_id)
             vrep.simxSetObjectFloatParameter(self.client_id, vrep.simxGetObjectHandle(self.client_id, motorConfig[3],
                                                                                       vrep.simx_opmode_blocking)[1],
                                              vrep.sim_shapefloatparam_mass, 1,
@@ -116,6 +128,15 @@ class SimRobot(Robot):
         self.sys.update(a, m)  # a = acceleration, m = magnetometer
         return km.getEulerAngles(self.sys.xHat[0:4])
 
+    def open_hand(self):
+        pass
+
+    def close_hand(self):
+        pass
+
+    def stop_hand(self):
+        pass
+
 
 class RealRobot(Robot):
 
@@ -123,12 +144,17 @@ class RealRobot(Robot):
         super().__init__()
         print("here")
         self.primitives = []
+        self.is_real = True
         self.arduino_serial = ArduinoSerial()
         self.motors = self.motors_init()
+        self.sys = km.System()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
         self.arduino_serial.send_command('40')  # Init IMU
         self.arduino_serial.send_command('50')  # Init TFLuna
+        # print(self.arduino_serial.read_command()) # TODO: test if this prints out tfluna init lines
+        # print(self.arduino_serial.read_command())
         self.arduino_serial.send_command('60')  # Init HuskyLens
+        self.left_hand_motor = None
 
     def motors_init(self):
 
@@ -138,6 +164,8 @@ class RealRobot(Robot):
             motor = RealMotor(motorConfig[0], motorConfig[1], motorConfig[3], self.arduino_serial)
             setattr(RealRobot, motorConfig[3], motor)
             motors.append(motor)
+            if motorConfig[3] == "Left_Hand_Joint":
+                self.left_hand_motor = motor
         print("Motors initialized")
         return motors
 
@@ -183,5 +211,21 @@ class RealRobot(Robot):
         self.arduino_serial.send_command("61")
         return self.arduino_serial.read_command()
 
-    def get_filtered_data(self):
-        pass
+    def get_filtered_data(self, data):
+        w = [data[0], data[1], data[2]]  # gyro
+        dt = 1 / 50
+        a = [data[3], data[4], data[5]]  # accele
+        m = [data[6], data[7], data[8]]  # magnetometer
+        # quat rotate
+        self.sys.predict(w, dt)  # w = gyroscope
+        self.sys.update(a, m)  # a = acceleration, m = magnetometer
+        return km.getEulerAngles(self.sys.xHat[0:4])
+
+    def open_hand(self):
+        self.left_hand_motor.rotation_on(10)
+
+    def close_hand(self):
+        self.left_hand_motor.rotation_on(-10)
+
+    def stop_hand(self):
+        self.left_hand_motor.rotation_off()

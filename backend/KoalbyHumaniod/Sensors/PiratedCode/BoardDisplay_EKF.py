@@ -40,7 +40,7 @@ class ProjectionViewer:
                     running = False
             self.clock.tick(loopRate)
             data = robot.get_imu_data()
-            if data.__len__() == 0 | data.__len__() != 9:  # error handling
+            if len(data) == 0 | len(data) != 9:  # error handling
                 continue
             self.wireframe.quatRotate([data[0], data[1], data[2]],  # gyro
                                       [data[3], data[4], data[5]],  # accele
