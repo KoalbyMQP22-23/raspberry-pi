@@ -7,14 +7,14 @@ from flask import render_template
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
-from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
+# from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.simulation import sim as vrep
 from backend.testing.runToTestKinematics import Walker
 
 app = Flask(__name__)
 
 robot = None
-pte = None
+# pte = None
 sd = SensorData()
 client_id = -1
 walker = None
@@ -29,13 +29,14 @@ def welcome():
 @app.route("/init")
 def init():
     global robot
-    global pte
+    # global pte
     global sensor_data
     # try:
     robot = RealRobot()
     # except FileNotFoundError:
     #     return Response("0", mimetype="text/xml")
-    pte = PrimitivesToExecute(robot)
+
+    # pte = PrimitivesToExecute(robot)
     sd.init_robot(robot)
     return Response("1", mimetype="text/xml")
     # TODO: fix this. I'm not sure how to get the try catch to work
@@ -51,7 +52,7 @@ def shutdown():
 @app.route("/init-simulation")
 def init_simulation():
     global robot
-    global pte
+    # global pte
     global sensor_data
     global client_id
     vrep.simxFinish(-1)  # just in case, close all opened connections
@@ -66,7 +67,7 @@ def init_simulation():
         return Response("0", mimetype="text/xml")
 
     robot = SimRobot(client_id)
-    pte = PrimitivesToExecute(robot)
+    # pte = PrimitivesToExecute(robot)
     sd.init_robot(robot)
     print("button pressed")
     return Response("1", mimetype="text/xml")
@@ -159,4 +160,4 @@ def close_hand():
 
 
 if __name__ == '__main__':
-    app.run(host='172.20.10.2', port=5000, debug=True, threaded=False)  # use rasPi IP address here
+    app.run(host='10.0.0.38', port=5000, debug=True, threaded=False)  # use rasPi IP address here

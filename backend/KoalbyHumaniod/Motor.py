@@ -69,7 +69,8 @@ class RealMotor(Motor):
     def set_position_time(self, position, time):
         """sends a desired motor position to the arduino <to be executed in a set amount of time?>"""
         id_pos_time_arr = [11, self.motor_id, position, time]  # TODO: time only works with herkulex
-        self.arduino_serial.send_command(','.join(map(str, id_pos_time_arr)) + ',')
+        command = ','.join(map(str, id_pos_time_arr)) + ','
+        self.arduino_serial.send_command(command)
 
     def compliant_toggle(self, toggle):
         """turns the compliance of a motor on or off based on a 1 or 0 input and sends this to the arduino"""
