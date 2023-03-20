@@ -8,8 +8,8 @@ from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
 # from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
-from backend.simulation import sim as vrep
-from backend.testing.runToTestKinematics import Walker
+from backend.Simulation import sim as vrep
+from backend.Testing.runToTestKinematics import Walker
 
 app = Flask(__name__)
 
@@ -160,4 +160,4 @@ def close_hand():
 
 
 if __name__ == '__main__':
-    app.run(host='10.0.0.38', port=5000, debug=True, threaded=False)  # use rasPi IP address here
+    app.run(host='192.168.1.148', port=5000, debug=True, threaded=False)  #IP address here

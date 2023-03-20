@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 import backend.KoalbyHumaniod.Config as config
 from backend.ArduinoSerial import ArduinoSerial
 from backend.KoalbyHumaniod.Motor import RealMotor, SimMotor
-from backend.simulation import sim as vrep
+from backend.Simulation import sim as vrep
 from backend.KoalbyHumaniod.Sensors.PiratedCode import Kalman_EKF as km
 
 

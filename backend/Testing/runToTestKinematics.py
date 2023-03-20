@@ -4,7 +4,7 @@ import sys
 from backend.KoalbyHumaniod.Kinematics.TrajectoryPlanning import TrajPlanner
 from backend.KoalbyHumaniod.Robot import SimRobot
 from backend.Primitives.MovementManager import play_motion_kinematics
-from backend.simulation import sim as vrep
+from backend.Simulation import sim as vrep
 
 
 class Walker:

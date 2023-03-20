@@ -17,7 +17,7 @@ if clientID!=-1:
 
     emptyBuff = bytearray()
 
-    # Start the simulation:
+    # Start the Simulation:
     sim.simxStartSimulation(clientID, sim.simx_opmode_oneshot_wait)
 
     # Load a robot instance:    res,retInts,retFloats,retStrings,retBuffer=sim.simxCallScriptFunction(clientID,'remoteApiCommandServer',sim.sim_scripttype_childscript,'loadRobot',[],[0,0,0,0],['d:/coppeliaRobotics/qrelease/release/test.ttm'],emptyBuff,sim.simx_opmode_oneshot_wait)
@@ -206,7 +206,7 @@ if clientID!=-1:
                                                                                        sim.sim_scripttype_childscript, 'removeLine', [line1Handle], [], [], emptyBuff,
                                                                                        sim.simx_opmode_oneshot_wait)
 
-    # Stop simulation:
+    # Stop Simulation:
     sim.simxStopSimulation(clientID, sim.simx_opmode_oneshot_wait)
 
     # Now close the connection to CoppeliaSim:

@@ -36,18 +36,18 @@ if clientID!=-1:
     # enable the synchronous mode on the client:
     sim.simxSynchronous(clientID, True)
 
-    # start the simulation:
+    # start the Simulation:
     sim.simxStartSimulation(clientID, sim.simx_opmode_blocking)
 
     # Now step a few times:
     for i in range(1,10):
         if sys.version_info[0] == 3:
-            input('Press <enter> key to step the simulation!')
+            input('Press <enter> key to step the Simulation!')
         else:
-            raw_input('Press <enter> key to step the simulation!')
+            raw_input('Press <enter> key to step the Simulation!')
         sim.simxSynchronousTrigger(clientID);
 
-    # stop the simulation:
+    # stop the Simulation:
     sim.simxStopSimulation(clientID, sim.simx_opmode_blocking)
 
     # Now close the connection to CoppeliaSim:

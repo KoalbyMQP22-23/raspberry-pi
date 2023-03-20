@@ -2,7 +2,7 @@
 #
 # scenes/synchronousImageTransmissionViaRemoteApi.ttt
 #
-# Do not launch simulation, but run this script
+# Do not launch Simulation, but run this script
 #
 # The client side (i.e. this script) depends on:
 #

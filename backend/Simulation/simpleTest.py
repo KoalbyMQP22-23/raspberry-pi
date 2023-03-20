@@ -1,10 +1,10 @@
 # Make sure to have the server side running in CoppeliaSim: 
 # in a child script of a CoppeliaSim scene, add following command
-# to be executed just once, at simulation start:
+# to be executed just once, at Simulation start:
 #
 # simRemoteApi.start(19999)
 #
-# then start simulation, and run this program.
+# then start Simulation, and run this program.
 #
 # IMPORTANT: for each successful call to simxStart, there
 # should be a corresponding call to simxFinish at the end!
