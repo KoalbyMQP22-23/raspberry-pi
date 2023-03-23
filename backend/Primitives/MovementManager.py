@@ -17,7 +17,7 @@ def split_list(robot, primitive_list, pose_time, pose_delay):
 def play_motion(robot, file_name, pose_time, pose_delay):
     pose_time_millis = int((pose_time - 0.005) * 1000)
     # long_file_name = "/Applications/PyCharm.app/PycharmProjects/flaskProject/backend/Primitives/poses/" + file_name
-    long_file_name = "./flaskProject/backend/Primitives/poses/" + file_name
+    long_file_name = "C:/Users/josh3/Documents/GitHub/flask-project/backend/Primitives/poses/" + file_name
     with open(long_file_name) as f:
         csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                               for row in
@@ -31,15 +31,15 @@ def play_motion(robot, file_name, pose_time, pose_delay):
 def record_motion(robot, pose_num):
     recorded_poses = []
     for m in robot.motors:
-        m.compliantOnOff(1)  # sets all motors in the robot to be compliant for moving to poses
+        m.compliant_toggle(1)  # sets all motors in the robot to be compliant for moving to poses
         time.sleep(0.05)  # need delay for comm time
     for poseIndex in range(pose_num):  # for each pose from 0 to desired number of poses
         pose_motor_positions_dict = {}
-        continue_select = int(input("Type 2 to record to next pose:"))  # wait for user to input "1" in console
+        continue_select = int(input("Type 2 to record to next pose:"))  # wait for user to input "2" in console
         if continue_select != 0:
             time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
             for m in robot.motors:  # for each motor in Motors list
-                pose_motor_positions_dict[m.motorID] = m.getPosition()  # add the motor ID as key and motor position as
+                pose_motor_positions_dict[m.motor_id] = m.get_position("")  # add the motor ID as key and motor position as
                 # value
                 recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of
                 # recorded poses
@@ -53,7 +53,7 @@ def record_motion(robot, pose_num):
     dict_writer.writerows(recorded_poses)
     motion_file.close()
     for m in robot.motors:
-        m.compliantOnOff(0)  # set motors back to non-compliant for use elsewhere
+        m.compliant_toggle(0)  # set motors back to non-compliant for use elsewhere
         time.sleep(0.05)  # need delay for comm time
 
 

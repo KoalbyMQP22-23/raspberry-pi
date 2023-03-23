@@ -11,6 +11,13 @@ import numpy as np
 import xml.etree.ElementTree as ET
 import itertools
 
+##
+##
+##
+##  CURRENTLY NOT USING AT ALL
+##
+##
+##
 
 class IKChain(Chain):
     """ Motors chain used for forward and inverse kinematics.

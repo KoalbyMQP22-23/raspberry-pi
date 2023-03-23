@@ -155,6 +155,8 @@ class RealRobot(Robot):
         # print(self.arduino_serial.read_command()) # TODO: test if this prints out tfluna init lines
         # print(self.arduino_serial.read_command())
         self.arduino_serial.send_command('60')  # Init HuskyLens
+        print(self.arduino_serial.read_command())
+        print("Huskey Lens Init")
         self.left_hand_motor = None
 
     def motors_init(self):
@@ -168,6 +170,7 @@ class RealRobot(Robot):
             if motorConfig[3] == "Left_Hand_Joint":
                 self.left_hand_motor = motor
         print("Motors initialized")
+        # print(motors)
         return motors
 
     def update_motors(self, pose_time_millis, motor_positions_dict):

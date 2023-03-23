@@ -2,9 +2,9 @@ import time
 
 from backend.KoalbyHumaniod.Robot import RealRobot
 
-robot = RealRobot()
-robot.close_hand()
+robot = RealRobot()  # init real-world robot
+robot.close_hand()  # closes gripper
 time.sleep(100)
-robot.open_hand()
+robot.open_hand()  # opens gripper
 time.sleep(100)
-robot.stop_hand()
+robot.stop_hand()  # stops gripper?

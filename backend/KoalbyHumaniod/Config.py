@@ -39,14 +39,14 @@ motors = [
     # Right Leg
     [16, [0, 0], 'Herk', 'Right_Thigh_Abductor_Joint'],
     [17, [0, 0], 'Herk', 'Right_Thigh_Rotator_Joint'],
-    [18, [0, 0], 'Dyn', 'Right_Thigh_Kick_Joint'],
+    [18, [0, 0], 'Herk', 'Right_Thigh_Kick_Joint'],
     [19, [0, 0], 'Herk', 'Right_Knee_Joint'],
     [20, [0, 0], 'Herk', 'Right_Ankle_Joint'],
 
     # Left Leg
     [11, [0, 0], 'Herk', 'Left_Thigh_Abductor_Joint'],
     [12, [0, 0], 'Herk', 'Left_Thigh_Rotator_Joint'],
-    [13, [0, 0], 'Dyn', 'Left_Thigh_Kick_Joint'],
+    [13, [0, 0], 'Herk', 'Left_Thigh_Kick_Joint'],
     [14, [0, 0], 'Herk', 'Left_Knee_Joint'],
     [15, [0, 0], 'Herk', 'Left_Ankle_Joint'],
 
@@ -55,6 +55,7 @@ motors = [
     [24, [0, 0], 'Dyn', 'Neck_Rotator_Joint']
 ]
 
+# THIS DICTIONARY IS UNUSED FROM LAST YEAR'S TEAMs
 motorDict = {
     0x01: [[0, 0], 'Herk', 'Right Forearm'],
     0x02: [[0, 0], 'Herk', 'Right Upper Shoulder'],
