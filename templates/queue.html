@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
     <h1>Koalby's Queue</h1>
-
+    <button onclick="history.back()">Go Back</button>
     <div id="queueBox">
 
     </div>
@@ -19,9 +19,15 @@
                     continue;
                 }
                 {#console.log(primList[prim])#}
+                const div = document.createElement("div");
                 const p = document.createElement("p");
                 p.innerText = primList[prim];
-                document.getElementById("queueBox").append(p);
+
+                const up = document.createElement("button");
+                up.innerText = "+";
+                div.append(p);
+                div.append(up);
+                document.getElementById("queueBox").append(div);
                 {#data.append(prim, primList[prim]);#}
                 {#console.log(data)#}
             }

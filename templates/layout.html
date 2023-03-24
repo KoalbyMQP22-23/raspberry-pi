@@ -82,7 +82,7 @@
             e.preventDefault();
             const request = new XMLHttpRequest();
             request.onload = function () {
-                window.location.replace("/"); //TODO: work?
+                window.location.replace("/");
             };
             request.open("GET", "/shutoff", true);
             request.send();
@@ -143,13 +143,16 @@
             setTimeout(updateData, 2000)
         }
 
-        window.onclick = updateData
+        // constantly collects data
+        // window.onclick = updateData
 
         var sensorDataButton = document.getElementById("sensorDataButton");
         sensorDataButton.addEventListener("click", function (e) {
             e.preventDefault();
             document.getElementById("sensor-data-info").style.display = "block";
             document.getElementById("imu-chart").style.display = "block";
+            document.getElementById("battery-level-bar").style.display = "none";
+            window.onclick = updateData
         });
 
         var button = document.getElementById("hideSensorDataButton");
@@ -157,6 +160,7 @@
             e.preventDefault();
             document.getElementById("sensor-data-info").style.display = "none";
             document.getElementById("imu-chart").style.display = "none";
+            document.getElementById("battery-level-bar").style.display = "none";
         });
     </script>
 
