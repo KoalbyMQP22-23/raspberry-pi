@@ -158,7 +158,7 @@ def csimPrint(client_id, message):
 
 
 def create_dummy(client_id, display_name, transform=None, parent_handle=-1, debug=FLAGS.csimDebugMode, operation_mode=sim.simx_opmode_blocking):
-    """Create a dummy object in the simulation
+    """Create a dummy object in the Simulation
 
     # Arguments
 
@@ -192,7 +192,7 @@ def create_dummy(client_id, display_name, transform=None, parent_handle=-1, debu
 
 
 def setPose(client_id, display_name, transform=None, parent_handle=-1):
-    """Set the pose of an object in the simulation
+    """Set the pose of an object in the Simulation
 
     # Arguments
 
@@ -225,7 +225,7 @@ def setPose(client_id, display_name, transform=None, parent_handle=-1):
 
 
 def set_vision_sensor_image(client_id, display_name, image, convert=None, scale_factor=256000.0, operation_mode=sim.simx_opmode_oneshot_wait):
-    """Display vision sensor image data in a CoppeliaSim simulation.
+    """Display vision sensor image data in a CoppeliaSim Simulation.
 
     [CoppeliaSim Vision Sensors](http://www.coppeliarobotics.com/helpFiles/en/visionSensors.htm)
     [simSetVisionSensorImage](http://www.coppeliarobotics.com/helpFiles/en/apiFunctions.htm#simSetVisionSensorImage)
@@ -310,7 +310,7 @@ def create_point_cloud(client_id, display_name, transform=None, point_cloud=None
                        max_voxel_size=0.01, max_point_count_per_voxel=10, point_size=10, options=8,
                        rgb_sensor_display_name=None, depth_sensor_display_name=None, convert_depth=FLAGS.csimVisualizeDepthFormat,
                        convert_rgb=FLAGS.csimVisualizeRGBFormat, save_ply_path=None, rgb_display_mode='vision_sensor'):
-    """Create a point cloud object in the simulation, plus optionally render the depth and rgb images.
+    """Create a point cloud object in the Simulation, plus optionally render the depth and rgb images.
 
     # Arguments
 
@@ -450,7 +450,7 @@ def create_point_cloud(client_id, display_name, transform=None, point_cloud=None
 
 
 def drawLines(client_id, display_name, lines, parent_handle=-1, transform=None, debug=FLAGS.csimDebugMode, operation_mode=sim.simx_opmode_blocking):
-    """Create a line in the simulation.
+    """Create a line in the Simulation.
 
     Note that there are currently some quirks with this function. Only one line is accepted,
     and sometimes CoppeliaSim fails to delete the object correctly and lines will fail to draw.

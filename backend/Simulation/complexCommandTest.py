@@ -3,7 +3,7 @@
 # commands that are not directly supported by the remote API.
 #
 # Load the demo scene 'remoteApiCommandServerExample.ttt' in CoppeliaSim, then 
-# start the simulation and run this program.
+# start the Simulation and run this program.
 #
 # IMPORTANT: for each successful call to simxStart, there
 # should be a corresponding call to simxFinish at the end!

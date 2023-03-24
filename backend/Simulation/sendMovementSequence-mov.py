@@ -2,7 +2,7 @@
 #
 # scenes/movementViaRemoteApi.ttt
 #
-# Do not launch simulation, then run this script
+# Do not launch Simulation, then run this script
 #
 # The client side (i.e. this script) depends on:
 #
@@ -57,7 +57,7 @@ if clientID!=-1:
     maxAccel=[mAccel,mAccel,mAccel,mAccel,mAccel,mAccel]
     targetVel=[0,0,0,0,0,0]
 
-    # Start simulation:
+    # Start Simulation:
     sim.simxStartSimulation(clientID, sim.simx_opmode_blocking)
 
     # Wait until ready:

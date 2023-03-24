@@ -22,6 +22,12 @@
     <p id="handMessage"></p>
     </div>
     <script>
+
+    function clearQueue() {
+        localStorage.removeItem("queue");
+    }
+    window.onload = clearQueue
+
     var button = document.getElementById("startWalk");
         button.addEventListener("click", function (e) {
             console.log("Starting walk");

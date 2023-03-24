@@ -2,7 +2,7 @@ import time
 
 # from simple_pid import PID
 
-from backend.simulation import sim as vrep
+from backend.Simulation import sim as vrep
 
 
 def do_work(yaw, pitch, roll, client_id):

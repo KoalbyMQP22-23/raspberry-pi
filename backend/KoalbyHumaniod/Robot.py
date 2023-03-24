@@ -1,9 +1,10 @@
+import time
 from abc import ABC, abstractmethod
 
 import backend.KoalbyHumaniod.Config as config
 from backend.ArduinoSerial import ArduinoSerial
 from backend.KoalbyHumaniod.Motor import RealMotor, SimMotor
-from backend.simulation import sim as vrep
+from backend.Simulation import sim as vrep
 from backend.KoalbyHumaniod.Sensors.PiratedCode import Kalman_EKF as km
 
 
@@ -151,9 +152,11 @@ class RealRobot(Robot):
         self.sys = km.System()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
         self.arduino_serial.send_command('40')  # Init IMU
+        time.sleep(2)
         self.arduino_serial.send_command('50')  # Init TFLuna
-        # print(self.arduino_serial.read_command()) # TODO: test if this prints out tfluna init lines
-        # print(self.arduino_serial.read_command())
+        time.sleep(2)
+        print(self.arduino_serial.read_command())
+        print(self.arduino_serial.read_command())
         self.arduino_serial.send_command('60')  # Init HuskyLens
         print(self.arduino_serial.read_command())
         print("Huskey Lens Init")
@@ -208,8 +211,20 @@ class RealRobot(Robot):
         return self.arduino_serial.read_command()
 
     def get_tf_luna_data(self):
-        self.arduino_serial.send_command("51")
+
+        self.arduino_serial.send_command('51')  # reads TFLuna data
+        time.sleep(1)
         return self.arduino_serial.read_command()
+
+        # print(string_data)
+        # if string_data.__len__() == 0:
+        #     return
+        # num_data = string_data.split(",")
+        # for piece in num_data:
+        #     check += float(piece)
+        # if data[8] == (check & 0xff):
+        #     dist = data[2] + data[3] * 256
+        # return dist
 
     def get_husky_lens_data(self):
         self.arduino_serial.send_command("61")

@@ -4,7 +4,7 @@ import threading
 import logging
 
 
-from backend.simulation import sim as vrep
+from backend.Simulation import sim as vrep
 from backend.KoalbyHumaniod.Robot import SimRobot
 
 vrep.simxFinish(-1)  # just in case, close all opened connections

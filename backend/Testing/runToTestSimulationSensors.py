@@ -2,7 +2,7 @@ import sys
 from time import sleep
 
 from backend.KoalbyHumaniod.Sensors.PiratedCode.BoardDisplay_EKF import initializeCube, ProjectionViewer
-from backend.simulation import sim as vrep
+from backend.Simulation import sim as vrep
 from backend.KoalbyHumaniod.Robot import SimRobot
 
 
