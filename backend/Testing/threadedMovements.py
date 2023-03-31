@@ -33,15 +33,14 @@ def do_move(joint_name):
     logging.info("Thread %s: finishing", joint_name)
 
 
-
 # thready = threading.Thread(target=do_move("Left_Elbow_Joint"))
 # thready2 = threading.Thread(target=do_move("Right_Elbow_Joint"))
 # thready.start()
 # print("here")
 # thready2.start()
-format = "%(asctime)s: %(message)s"
-logging.basicConfig(format=format, level=logging.INFO,
-                        datefmt="%H:%M:%S")
+message_format = "%(asctime)s: %(message)s"
+logging.basicConfig(format=message_format, level=logging.INFO,
+                    datefmt="%H:%M:%S")
 threads = list()
 for index in range(2):
     logging.info("Main    : create and start thread %d.", index)
@@ -58,6 +57,3 @@ for index, thread in enumerate(threads):
     logging.info("Main    : before joining thread %d.", index)
     thread.join()
     logging.info("Main    : thread %d done", index)
-
-
-

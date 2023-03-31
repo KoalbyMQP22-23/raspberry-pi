@@ -2,13 +2,13 @@ from backend.KoalbyHumaniod.Sensors.PiratedCode import Wireframe_EKF as wf
 import pygame
 from operator import itemgetter
 
-from backend.KoalbyHumaniod.Sensors.Sensors import do_work
+from backend.KoalbyHumaniod.Sensors.PID import do_work
 from operator import itemgetter
 
 import pygame
 
 from backend.KoalbyHumaniod.Sensors.PiratedCode import Wireframe_EKF as wf
-from backend.KoalbyHumaniod.Sensors.Sensors import do_work
+from backend.KoalbyHumaniod.Sensors.PID import do_work
 
 
 # client_id = vrep.simxStart('127.0.0.1', 19999, True, True, 5000, 5)
@@ -53,7 +53,7 @@ class ProjectionViewer:
                 loop_counter = 0
             else:
                 yaw, pitch, roll = self.wireframe.getAttitude()
-                do_work(yaw, pitch, roll, client_id)
+                do_work(yaw, pitch, roll, robot)
                 loop_counter = loop_counter + 1
 
             i = i + 1

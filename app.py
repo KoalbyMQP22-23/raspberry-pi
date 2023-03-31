@@ -9,7 +9,7 @@ from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
 # from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.Simulation import sim as vrep
-from backend.Testing.runToTestKinematics import Walker
+from backend.Testing.runToTestWalk import Walker
 
 app = Flask(__name__)
 
