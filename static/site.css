@@ -10,10 +10,19 @@
     color: inherit;
 }
 
+@media (pointer:none), (pointer:coarse) {
+    .body-content {
+        zoom: 250%;
+        text-align:center;
+        align-items:center;
+        justify-content: center;
+        background-color: lightblue;
+  }
+}
 
 .body-content {
     padding: 5px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Comic Sans MS';
 }
 
 .child {
@@ -21,21 +30,22 @@
 }
 
 .init-button {
-    display: block;
+    display: inline-block;
     width: 115px;
-    height: 25px;
+    height: 20px;
+    margin: 10px;
     background: #61c245;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 10px;
     color: white;
     font-weight: bold;
     line-height: 25px;
 }
 
 .shutdown-button {
-    display: block;
+    display: inline-block;
     width: 115px;
     height: 25px;
     background: #c24545;
@@ -46,14 +56,16 @@
     color: white;
     font-weight: bold;
     line-height: 25px;
+    margin-bottom: 10px;
 }
 
 .tutorial-button {
-    display: inline;
-    width: 115px;
+    display: inline-block;
+    width: 100px;
     height: 25px;
     background: #45c2a1;
     padding: 10px;
+    margin-bottom: 10px;
     text-align: center;
     text-decoration: none;
     border-radius: 5px;
@@ -63,17 +75,31 @@
 }
 
 .button {
-    display: inline;
-    width: 115px;
+    display: inline-block;
+    width: 50%;
     height: 25px;
     background: #e3b51c;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     text-decoration: none;
     border-radius: 5px;
     color: white;
+    margin-bottom: 10px;
     font-weight: bold;
-    line-height: 25px;
+}
+
+.sensor-button {
+    display: inline-block;
+    width: 50%;
+    height: 25px;
+    background: #e3b51c;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .loader {
@@ -106,12 +132,31 @@
 }
 
 .move_button {
-    width: 25%;
-    height: 15px;
+    display: inline-block;
+    border: none;
+    width: 60%;
+    margin-bottom: 10px;
     background: #1ce326;
     padding: 20px;
-    text-align: center;
     text-decoration: none;
+    font-family: 'Comic Sans MS';
+    font-size: 16px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+.walk_button {
+    display: inline-block;
+    border: none;
+    width: 60%;
+    margin-bottom: 10px;
+    background: #b81ce3;
+    padding: 20px;
+    text-decoration: none;
+    font-family: 'Comic Sans MS';
+    font-size: 16px;
     border-radius: 5px;
     color: white;
     font-weight: bold;

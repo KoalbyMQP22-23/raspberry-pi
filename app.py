@@ -8,7 +8,6 @@ from serial import SerialException
 from backend.KoalbyHumaniod.Robot import RealRobot, SimRobot
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
-# from backend.Primitives.PrimitivesToExecute import PrimitivesToExecute
 from backend.Simulation import sim as vrep
 from backend.Testing.runToTestWalk import Walker
 
@@ -34,6 +33,8 @@ def init():
     :return: 1 if robot is not connected, 0 if robot is
     """
     global robot
+    global walker
+    walker = Walker()
     sensor_data = SensorData()
     try:
         robot = RealRobot()
@@ -67,6 +68,8 @@ def init_simulation():
     global sensor_data
     sensor_data = SensorData()
     global client_id
+    global walker
+    walker = Walker()
 
     # TODO: this is duplicated lots of places
     vrep.simxFinish(-1)  # just in case, close all opened connections
@@ -80,6 +83,7 @@ def init_simulation():
         return Response("0", mimetype="text/xml")
 
     robot = SimRobot(client_id)
+    print("robot should be created")
     sensor_data.init_robot(robot)
     return Response("1", mimetype="text/xml")
 
@@ -153,27 +157,16 @@ def sensor_data():
     return Response(json_object, mimetype="text/xml")
 
 
-@app.route("/walk-start/")
-def walk_start():
+@app.route("/walk-toggle/")
+def walk_toggle():
     """
     Sets the isWalking property to ture, making the robot start walking
     :return: Robot finished walking to the user. Will only return after robot stops walking
     """
     global walker
-    walker = Walker(True)
-    walker.play("walk", 1, 1, robot)
-    return Response("Robot finished walking", mimetype="text/xml")
+    walker.toggle("walk", 1, 1, robot)
+    return Response("Robot toggled walking", mimetype="text/xml")
 
-
-@app.route("/walk-stop/")
-def walk_stop():
-    """
-    Sets the isWalking property to false, making the robot stop walking
-    :return: Robot stopped walking to the user
-    """
-    global walker
-    walker.isWalking = False
-    return Response("Robot stopped walking", mimetype="text/xml")
 
 
 @app.route("/open-hand/")
@@ -208,3 +201,4 @@ def close_hand():
 
 if __name__ == '__main__':
     app.run(host='192.168.1.148', port=5000, debug=True, threaded=False)  #IP address here
+    # app.run(host='0.0.0.0', port=5000, debug=True, threaded=False)

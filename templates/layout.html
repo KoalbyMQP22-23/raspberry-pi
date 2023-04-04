@@ -18,17 +18,15 @@
         <a href="" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
     </div>
     <div>
-        <a href="" class="button" id="sensorDataButton">Show Sensor Data</a>
-        <a href="" class="button" id="hideSensorDataButton">Hide Sensor Data</a>
+        <a href="" class="sensor-button" id="sensorDataButton">Show Sensor Data</a>
     </div>
     <div>
         <canvas id="imu-chart"></canvas>
     </div>
     <div id=sensor-data-info>
-        <p id="battery-level"></p>
 
-        <p>Battery Level</p>
-        <div class="container">
+        <div id = "battery-box" class="container">
+            <p>Battery Level</p>
             <div id="battery-level-bar" class="battery">0%</div>
         </div>
         <p id="tf-luna-dist"></p>
@@ -90,15 +88,18 @@
 
         function updateData() {
             const request = new XMLHttpRequest();
+            if(!shown){
+                return;
+            }
             request.onload = function () {
                 const jsonRes = JSON.parse(request.response);
-                document.getElementById("battery-level").innerHTML = "Battery Level is: " + jsonRes.battery_level;
+                document.getElementById("battery-level-bar").innerHTML = jsonRes.battery_level;
                 document.getElementById("tf-luna-dist").innerHTML = "TF Luna Distance is: " + jsonRes.tf_luna_data;
                 document.getElementById("raw-imu").innerHTML = "Raw IMU Data is: " + jsonRes.imu_data[0] + ", " + jsonRes.imu_data[1] + ", " + jsonRes.imu_data[2];
                 document.getElementById("pitch-roll-yaw").innerHTML = "Pitch is: " + jsonRes.pitch_roll_yaw[0] + ", Roll is: " + jsonRes.pitch_roll_yaw[1] + ", and Yaw is: " + jsonRes.pitch_roll_yaw[2];
                 document.getElementById("husky-lens").innerHTML = "Husky Lens Data is: " + jsonRes.husky_lens_data;
                 document.getElementById("battery-level-bar").innerHTML = jsonRes.battery_level + "%";
-                document.getElementById("battery-level-bar").style.width = '88';
+                document.getElementById("battery-level-bar").style.width = 79;
                 {#document.getElementById("sensor-data-info").innerHTML = request.response#}
                 pitch.push(jsonRes.pitch_roll_yaw[0]);
                 roll.push(jsonRes.pitch_roll_yaw[1]);
@@ -145,22 +146,27 @@
 
         // constantly collects data
         // window.onclick = updateData
+        var shown = false;
 
         var sensorDataButton = document.getElementById("sensorDataButton");
         sensorDataButton.addEventListener("click", function (e) {
             e.preventDefault();
-            document.getElementById("sensor-data-info").style.display = "block";
+            if (!shown){
+                shown = true;
+                document.getElementById("sensorDataButton").innerText = "Hide Sensor Data"
+                document.getElementById("sensor-data-info").style.display = "block";
             document.getElementById("imu-chart").style.display = "block";
-            document.getElementById("battery-level-bar").style.display = "none";
+            document.getElementById("battery-level-bar").style.display = "block";
             window.onclick = updateData
-        });
-
-        var button = document.getElementById("hideSensorDataButton");
-        button.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.getElementById("sensor-data-info").style.display = "none";
+            }
+            else{
+                shown = false;
+                document.getElementById("sensorDataButton").innerText = "Show Sensor Data"
+                document.getElementById("sensor-data-info").style.display = "none";
             document.getElementById("imu-chart").style.display = "none";
             document.getElementById("battery-level-bar").style.display = "none";
+            }
+
         });
     </script>
 

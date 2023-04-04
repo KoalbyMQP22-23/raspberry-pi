@@ -13,6 +13,6 @@ class SensorData(object):
                     "tf_luna_data": (self.robot.get_tf_luna_data()),
                     "pitch_roll_yaw": (self.robot.get_filtered_data(imu_data)),
                     "husky_lens_data": (self.robot.get_husky_lens_data())}
-        # ret_dict = {"battery_level": (self.robot.read_battery_level())}
+
         print(ret_dict)
         return ret_dict

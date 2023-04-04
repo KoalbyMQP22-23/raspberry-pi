@@ -8,9 +8,9 @@ from backend.Simulation import sim as vrep
 
 
 class Walker:
-    def __init__(self, isWalking):
+    def __init__(self):
         self.client_id = None
-        self.isWalking = isWalking
+        self.isWalking = None
 
     def init_sim(self):
 
@@ -20,6 +20,13 @@ class Walker:
             print("Connected to remote API server")
         else:
             sys.exit("Not connected to remote API server")
+
+    def toggle(self, filename, leg_choice, tf, robot):
+        if self.isWalking:
+            self.isWalking = False
+        else:
+            self.isWalking = True
+            self.play(filename, leg_choice, tf, robot)
 
     def play(self, replay_filename, leg_choice, tf, robot):
         traj_planner = TrajPlanner()
@@ -60,7 +67,6 @@ class Walker:
 
         # numSteps = 0
         while self.isWalking:
-            # numSteps <= 6:
 
             iterate_through_this = traj_planner.execute_cubic_traj(position_list, keys, t0, tf, v0, vf)
 

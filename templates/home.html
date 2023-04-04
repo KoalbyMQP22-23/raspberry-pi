@@ -4,21 +4,18 @@
 {% endblock %}
 {% block content %}
     <h1>Control Pane</h1>
-    <p>The robot has been initialized</p>
+    <p id =descriptor>The robot has been initialized</p>
     <div>
-        <a href=pre-recorded class="button">Pre Recorded Movements</a>
+    <div>
+        <a href=tutorial class="tutorial-button">Help</a>
+    </div>
+
+    <a href=pre-recorded class="button">Execute Movements</a>
         <a href=record-new class="button">Record New Movement</a>
-        <a href=tutorial class="tutorial-button">?</a>
-    </div>
-    <div>
-        <button id="startWalk" class="move_button">Press to Begin Walking</button>
-        <button id="stopWalk" class="move_button">Press to Stop Walking</button>
-        <p id="walkMessage"></p>
-    </div>
-    <div>
-        <button id="closeHand" class="move_button">Press to Close Left Hand</button>
-        <button id="openHand" class="move_button">Press to Open Left Hand</button>
-        <button id="stopHand" class="move_button">Press to Stop Left Hand</button>
+    <button id="walk" class="walk_button">Press to Begin Walking</button>
+        <button id="closeHand" class="move_button">Close Left Hand</button>
+        <button id="openHand" class="move_button">Open Left Hand</button>
+        <button id="stopHand" class="move_button">Stop Left Hand</button>
     <p id="handMessage"></p>
     </div>
     <script>
@@ -28,27 +25,15 @@
     }
     window.onload = clearQueue
 
-    var button = document.getElementById("startWalk");
+    var button = document.getElementById("walk");
         button.addEventListener("click", function (e) {
-            console.log("Starting walk");
+            console.log("Walk clicked");
             e.preventDefault();
             const request = new XMLHttpRequest();
             request.onload = function () {
-                document.getElementById('walkMessage').innerHTML = request.response;
+                document.getElementById('descriptor').innerHTML = request.response;
             };
-            request.open("GET", "/walk-start", true);
-            request.send();
-        });
-
-        var stopWalkButton = document.getElementById("stopWalk");
-        stopWalkButton.addEventListener("click", function (e) {
-            console.log("Finishing walk");
-            e.preventDefault();
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                document.getElementById('walkMessage').innerHTML = request.response;
-            };
-            request.open("GET", "/walk-stop", true);
+            request.open("GET", "/walk-toggle", true);
             request.send();
         });
 

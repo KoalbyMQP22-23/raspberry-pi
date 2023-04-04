@@ -73,9 +73,9 @@ class Robot(ABC):
 
 class SimRobot(Robot):
     def __init__(self, client_id):
+        self.client_id = client_id
         self.motors = self.motors_init()
         super().__init__(False, self.motors)
-        self.client_id = client_id
         self.primitives = []
         self.is_real = False
 
@@ -120,16 +120,17 @@ class SimRobot(Robot):
         return data
 
     def read_battery_level(self):
-        pass
+        return 2
 
     def get_tf_luna_data(self):
-        dist = float(vrep.simxGetFloatSignal(self.client_id, "proximity", vrep.simx_opmode_streaming)[1])
-        print(dist)
-        if dist > 5:
-            print("stop")
+        # dist = float(vrep.simxGetFloatSignal(self.client_id, "proximity", vrep.simx_opmode_streaming)[1])
+        # print(dist)
+        # if dist > 5:
+        #     print("stop")
+        return 6
 
     def get_husky_lens_data(self):
-        pass
+        return 3
 
     def open_hand(self):
         pass
