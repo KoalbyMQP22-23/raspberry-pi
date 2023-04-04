@@ -21,16 +21,18 @@ def setup():
         else:
             sys.exit("Not connected to remote API server")
 
-        robot = SimRobot(client_id)
-        handle = vrep.simxGetObjectHandle(client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]
-        vrep.simxSetObjectFloatParameter(client_id, handle, vrep.sim_shapefloatparam_mass, 5, vrep.simx_opmode_blocking)
-    else:
+        robot = SimRobot(client_id)  # inits sim robot
+        handle = vrep.simxGetObjectHandle(client_id, 'Cuboid0', vrep.simx_opmode_blocking)[1]  # gets ID of sim cart
+        vrep.simxSetObjectFloatParameter(client_id, handle, vrep.sim_shapefloatparam_mass, 5,
+                                         vrep.simx_opmode_blocking)  # sets mass of sim cart to 5
+    else:  # inits real-world robot
         robot = RealRobot()
         client_id = -1
 
     # if simulation_flag == 1:
     #     vrep.simxStopSimulation(client_id, vrep.simx_opmode_oneshot)
     return robot, file_name, pose_time, pose_delay, client_id, simulation_flag
+
 
 
 # TODO: tweaks for some reason when executing movement

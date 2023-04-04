@@ -55,6 +55,7 @@ motors = [
     [24, [0, 0], 'Dyn', 'Neck_Rotator_Joint']
 ]
 
+# THIS DICTIONARY IS UNUSED FROM LAST YEAR'S TEAMs
 motorDict = {
     0x01: [[0, 0], 'Herk', 'Right Forearm'],
     0x02: [[0, 0], 'Herk', 'Right Upper Shoulder'],

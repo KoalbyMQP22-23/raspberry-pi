@@ -50,7 +50,7 @@ class TrajPlanner:
         finalPositionList = []
         position1 = positionList[0]
         position2 = positionList[1]
-        for idx in range(0, 3):  # for joint value in position
+        for idx in range(0, len(position1)):  # for joint value in position
             # print(idx)
             # print(range(len(position)))
             # print(len(position))
@@ -72,26 +72,52 @@ class TrajPlanner:
     def make_into_usable_positions(self,
                                    finalPositionList):  # takes in finalPositionList from above and converts it to list of positions
         useThisForIteratingThrough = []
+        jointValues = []
+        # print("Final Position List")
         # print(finalPositionList)
-        jointValues1 = finalPositionList[0]  # list of iterable values for a SINGLE JOINT
-        # print(jointValues1)
-        jointValues2 = finalPositionList[1]  # list of iterable values for a SINGLE JOINT
-        # print(jointValues2)
-        jointValues3 = finalPositionList[2]  # list of iterable values for a SINGLE JOINT
-        for idx in range(len(jointValues1)):  # for each value in list of joint values
-            jointValue1 = jointValues1[idx]
-            jointValue2 = jointValues2[idx]
-            jointValue3 = jointValues3[idx]
-            useThisForIteratingThrough.append(
-                [jointValue1, jointValue2, jointValue3])  # converted to usable position to be fed into robot
-        return useThisForIteratingThrough  # [[joint1value1, joint2value1, joint3value1], [...]]
+        # print(finalPositionList)
+        for i in range(0, len(finalPositionList[0])):
+            onePos = []
+            for idx in range(0, len(finalPositionList)):
+                onePos.append((finalPositionList[idx])[i])
+            jointValues.append(onePos)
+        # useThisForIteratingThrough.append(jointValues)
+            # interMediateJointValues = finalPositionList[i]
+            # jointValues.append(interMediateJointValues)
+            #
+            # print("Joint Values")
+            # print(jointValues)
+        # jointValues1 = finalPositionList[0]  # list of iterable values for a SINGLE JOINT
+        # # print(jointValues1)
+        # jointValues2 = finalPositionList[1]  # list of iterable values for a SINGLE JOINT
+        # # print(jointValues2)
+        # jointValues3 = finalPositionList[2]  # list of iterable values for a SINGLE JOINT
+        #     jointValue = []
+        # for i in range(0, len(jointValues[i])):  # for each value in list of joint values
+        #     for idx in range(0, len(jointValues[0])):
+        #
+        #     # print(idx)
+        #     jointValue.append((jointValues[i])[idx])
+            # jointValue2 = jointValues2[idx]
+            # jointValue3 = jointValues3[idx]
+        # useThisForIteratingThrough.append(jointValue)  # converted to usable position to be fed into robot
+        # print("useThisForIteratingThrough")
+        # print(jointValues)
+        return jointValues  # [[joint1value1, joint2value1, joint3value1], [...]]
 
-    def convert_to_dictionary(self, keys, position):  # FIX!!!!!!
-        positionDictionary = {keys[0]: position[0], keys[1]: position[1], keys[2]: position[2]}    # IMPORTANT
+    def convert_to_dictionary(self, keys, position):
+        # print("Position")
+        # print(position)
+        positionDictionary = {}
+        for i in range(0, len(position)):
+            positionDictionary[keys[i]] = position[i]
+        # positionDictionary = {keys[0]: position[0], keys[1]: position[1], keys[2]: position[2], 0: -20, 4: -20, 3: 20, 7: 40}    # IMPORTANT
         return positionDictionary  # {13: jointvalue, 14: jointvalue, 15: jointvalue}  this needs to be set to robot.motorPositionDict
 
     def execute_cubic_traj(self, positionList, keys, t0, tf, v0, vf):
         generatedPositionList = []
+        # print("Position List")
+        # print(positionList)
         for i in range(0, len(positionList) - 1):
             # if i == len(positionList - 1):
             #     break
@@ -100,18 +126,18 @@ class TrajPlanner:
                                                                                   intermediatePositionList,
                                                                                   v0, vf)
             for onePosition in newPositionList:
-            # print(newPositionList)  # [value1, value2, value3] in order of trajectory???
+                # print(newPositionList)  # [value1, value2, value3] in order of trajectory???
                 generatedPositionList.append(onePosition)  # TEST TEST TEST
             # length of list is (trajTime/timeStep + 1) * len(positionList)
         # print(generatedPositionList)
 
         returnThisPositionDict = []
         for allPositions in generatedPositionList:  # there's two of these, each is the path from 1 point to another
+            # print("AllPositions")
             # print(allPositions)
 
             positionDict = self.convert_to_dictionary(keys, allPositions)  # [v1, v2, v3]
             # print(positionDict)
             returnThisPositionDict.append(positionDict)
-
 
         return returnThisPositionDict

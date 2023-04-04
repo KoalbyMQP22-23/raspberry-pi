@@ -8,23 +8,27 @@ from backend.Simulation import sim as vrep
 from backend.KoalbyHumaniod.Robot import SimRobot
 
 vrep.simxFinish(-1)  # just in case, close all opened connections
-client_id = vrep.simxStart('127.0.0.1', 19999, True, True, 5000, 5)
+client_id = vrep.simxStart('127.0.0.1', 19999, True, True, 5000, 5)  # inits simulation
 if client_id != -1:  # TODO: Fix duplicate code
     print("Connected to remote API server")
 else:
     sys.exit("Not connected to remote API server")
 
-robot = SimRobot(client_id)
+robot = SimRobot(client_id)  # inits sim robot
 
 
 def do_move(joint_name):
+    """
+    Moves a specified joint in simulation
+    :param joint_name: The name of the joint to be moved
+    """
     # print("starting thread")
     logging.info("Thread %s: starting", joint_name)
 
     i = 0
     while i < 100:
-        handle = vrep.simxGetObjectHandle(client_id, joint_name, vrep.simx_opmode_blocking)[1]
-        vrep.simxSetJointTargetPosition(client_id, handle, i, vrep.simx_opmode_streaming)
+        handle = vrep.simxGetObjectHandle(client_id, joint_name, vrep.simx_opmode_blocking)[1]  # gets ID of sim motor
+        vrep.simxSetJointTargetPosition(client_id, handle, i, vrep.simx_opmode_streaming)  # set target angle position
         i = i + 10
         time.sleep(.5)
         print("moved {} {} degrees".format(joint_name, i))
@@ -32,6 +36,7 @@ def do_move(joint_name):
     # print("ending thread")
     logging.info("Thread %s: finishing", joint_name)
 
+# UNSURE WHAT IS HAPPENING BELOW HERE, SOMEONE ELSE SHOULD COMMENT
 
 # thready = threading.Thread(target=do_move("Left_Elbow_Joint"))
 # thready2 = threading.Thread(target=do_move("Right_Elbow_Joint"))

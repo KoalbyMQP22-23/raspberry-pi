@@ -8,6 +8,7 @@ class ArduinoSerial(object):
         # to run with DXL shield
         # try:
         # self.ser = serial.Serial('/dev/cu.usbserial-14610', 115200, timeout=1)  # change this to get correct port
+        #     self.ser = serial.Serial('/dev/cu.usbserial-14610', 115200, timeout=1)  # change this to get correct port
         # except FileNotFoundError:
         #     print("File not found")
 

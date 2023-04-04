@@ -85,6 +85,7 @@ class SimRobot(Robot):
         motors = list()
         for motorConfig in Config.motors:
             # handle = vrep.simxGetObjectHandle(self.client_id, motorConfig[3], vrep.simx_opmode_blocking)[1]
+            # print(self.client_id)
             vrep.simxSetObjectFloatParameter(self.client_id, vrep.simxGetObjectHandle(self.client_id, motorConfig[3],
                                                                                       vrep.simx_opmode_blocking)[1],
                                              vrep.sim_shapefloatparam_mass, 1,
@@ -159,6 +160,8 @@ class RealRobot(Robot):
         print(self.arduino_serial.read_command())
         print(self.arduino_serial.read_command())
         self.arduino_serial.send_command('60')  # Init HuskyLens
+        print(self.arduino_serial.read_command())
+        print("Huskey Lens Init")
         self.left_hand_motor = None
         super().__init__(True, self.motors)
 
@@ -173,6 +176,7 @@ class RealRobot(Robot):
             if motorConfig[3] == "Left_Hand_Joint":
                 self.left_hand_motor = motor
         print("Motors initialized")
+        # print(motors)
         return motors
 
     def update_motors(self, pose_time_millis, motor_positions_dict):

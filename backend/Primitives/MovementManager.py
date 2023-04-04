@@ -38,7 +38,7 @@ def record_motion(robot, pose_num):
         time.sleep(0.05)  # need delay for comm time
     for poseIndex in range(pose_num):  # for each pose from 0 to desired number of poses
         pose_motor_positions_dict = {}
-        continue_select = int(input("Type 2 to record to next pose:"))  # wait for user to input "1" in console
+        continue_select = int(input("Type 2 to record to next pose:"))  # wait for user to input "2" in console
         if continue_select != 0:
             time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
             for m in robot.motors:  # for each motor in Motors list
