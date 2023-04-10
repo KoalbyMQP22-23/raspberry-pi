@@ -34,7 +34,7 @@ class Walker:
         left_leg_positions = []
         # TODO: make this not an absolute filepath
         with open(
-                "/Users/caseysnow/Desktop/MQP/flask-project/backend/Primitives/poses/" + replay_filename) as f:
+                "/Users/caseysnow/Desktop/MQP/flask-project/backend/Primitives/poses/leftWalk") as f:
             # with open(poses/replay_filename) as f:
             csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                                 for row in
@@ -85,7 +85,7 @@ class Walker:
 
 if __name__ == "__main__":
     sim_flag = float(input("Are you running the simulation? Type 1 for yes and 0 otherwise"))
-    walker = Walker(True)
+    walker = Walker()
     if sim_flag == 1:
         walker.init_sim()
         robot = SimRobot(walker.client_id)
@@ -99,5 +99,6 @@ if __name__ == "__main__":
     replay_filename = str(input("Input saved file name to play back:"))
     legChoice = float(input("Enter 1 to move left leg or 2 to move right leg:"))
     tf = float(input("Enter trajectory time (seconds):"))
+    walker.isWalking = True
     walker.play(replay_filename, legChoice, tf, robot)
     walker.isWalking = bool(input("False to stop walking"))
