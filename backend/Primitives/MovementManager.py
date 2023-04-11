@@ -32,28 +32,31 @@ def play_motion(robot, file_name, pose_time, pose_delay):
 
 
 def record_motion(robot, pose_num):
-    global recorded_poses
+    recorded_poses = []
+    """
+            Records a series of manually positioned robot poses with a desired number of poses and saves them to a csv file
+            """
     for m in robot.motors:
         m.compliant_toggle(1)  # sets all motors in the robot to be compliant for moving to poses
         time.sleep(0.05)  # need delay for comm time
     for poseIndex in range(pose_num):  # for each pose from 0 to desired number of poses
         pose_motor_positions_dict = {}
-        continue_select = int(input("Type 2 to record to next pose:"))  # wait for user to input "2" in console
+        continue_select = int(input("Type 2 to record to next pose:"))  # wait for user to input "1" in console
         if continue_select != 0:
             time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
             for m in robot.motors:  # for each motor in Motors list
-                pose_motor_positions_dict[m.motorID] = m.get_position()  # add the motor ID as key and motor position as
-                # value
-                recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of
-                # recorded poses
+                pose_motor_positions_dict[
+                    m.motor_id] = m.get_position("")  # add the motor ID as key and motor position as value
+            recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of recorded poses
+        continue_select = 0
         time.sleep(0.01)  # comms buffer delay
     # write dictionary of recorded poses to csv file
-    motor_id_headers = recorded_poses[0].keys()
-    motion_file = open(str(input("Input saved file name:")), "w")  # request a filename
-    dict_writer = csv.DictWriter(motion_file, motor_id_headers)
+    motorIDHeaders = recorded_poses[0].keys()
+    motionFile = open(str(input("Input saved file name:")), "w")  # request a filename
+    dict_writer = csv.DictWriter(motionFile, motorIDHeaders)
     dict_writer.writeheader()
     dict_writer.writerows(recorded_poses)
-    motion_file.close()
+    motionFile.close()
     for m in robot.motors:
         m.compliant_toggle(0)  # set motors back to non-compliant for use elsewhere
         time.sleep(0.05)  # need delay for comm time

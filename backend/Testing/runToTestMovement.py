@@ -34,7 +34,6 @@ def setup():
     return robot, file_name, pose_time, pose_delay, client_id, simulation_flag
 
 
-
 # TODO: tweaks for some reason when executing movement
 
 robot_type, playback_file, p_time, p_delay, _, _ = setup()
