@@ -15,25 +15,26 @@
     {% block content %}
     {% endblock %}
     <div class="button_div">
-        <a href="" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
-    </div>
-    <div>
         <a href="" class="sensor-button" id="sensorDataButton">Show Sensor Data</a>
     </div>
     <div>
         <canvas id="imu-chart"></canvas>
     </div>
     <div id=sensor-data-info>
-
-        <div id = "battery-box" class="container">
-            <p>Battery Level</p>
-            <div id="battery-level-bar" class="battery">0%</div>
-        </div>
+        <p id="'battery-level"></p>
         <p id="tf-luna-dist"></p>
         <p id="raw-imu"></p>
         <p id="pitch-roll-yaw"></p>
         <p id="husky-lens"></p>
     </div>
+<div class="navbar" id="navbar">
+  <a href="home" class="active" onclick="myFunction()">Home</a>
+  <a href="pre-recorded" onclick="myFunction()">Pre Recorded</a>
+  <a href=record-new onclick="myFunction()">Record New</a>
+    <a href=sensor-data onclick="myFunction()">Sensor Data</a>
+    <a href="" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
+{#    &#9776;#}
+</div>
     <script>
 
         const ctx = document.getElementById('imu-chart');
@@ -86,6 +87,15 @@
             request.send();
         });
 
+        function myFunction() {
+  var x = document.getElementById("navbar");
+  if (x.className === "navbar") {
+    x.className += " responsive";
+  } else {
+    x.className = "navbar";
+  }
+}
+
         function updateData() {
             const request = new XMLHttpRequest();
             if(!shown){
@@ -93,7 +103,7 @@
             }
             request.onload = function () {
                 const jsonRes = JSON.parse(request.response);
-                document.getElementById("battery-level-bar").innerHTML = jsonRes.battery_level;
+                document.getElementById("battery-level").innerHTML = jsonRes.battery_level;
                 document.getElementById("tf-luna-dist").innerHTML = "TF Luna Distance is: " + jsonRes.tf_luna_data;
                 document.getElementById("raw-imu").innerHTML = "Raw IMU Data is: " + jsonRes.imu_data[0] + ", " + jsonRes.imu_data[1] + ", " + jsonRes.imu_data[2];
                 document.getElementById("pitch-roll-yaw").innerHTML = "Pitch is: " + jsonRes.pitch_roll_yaw[0] + ", Roll is: " + jsonRes.pitch_roll_yaw[1] + ", and Yaw is: " + jsonRes.pitch_roll_yaw[2];

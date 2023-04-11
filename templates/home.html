@@ -3,25 +3,33 @@
     Home
 {% endblock %}
 {% block content %}
+    <div class = "header">
     <h1>Control Pane</h1>
-    <p id =descriptor>The robot has been initialized</p>
+    </div>
+
+
     <div>
     <div>
+        <p id =descriptor>The robot has been initialized</p>
         <a href=tutorial class="tutorial-button">Help</a>
     </div>
 
+        <button id="walk" class="walk_button">Begin Walking</button>
     <a href=pre-recorded class="button">Execute Movements</a>
         <a href=record-new class="button">Record New Movement</a>
-    <button id="walk" class="walk_button">Press to Begin Walking</button>
-        <button id="closeHand" class="move_button">Close Left Hand</button>
-        <button id="openHand" class="move_button">Open Left Hand</button>
-        <button id="stopHand" class="move_button">Stop Left Hand</button>
-    <p id="handMessage"></p>
+
+{#        <button id="left-hand" class = "hand-button">Move Left Hand</button>#}
+{#        <button id="right-hand" class = "hand-button">Move Right Hand</button>#}
+
+        <button id="closeHand" class="move_button">Close</button>
+        <button id="openHand" class="move_button">Open</button>
     </div>
     <script>
 
     function clearQueue() {
         localStorage.removeItem("queue");
+        document.getElementById("closeHand").style.display = 'none'
+        document.getElementById("openHand").style.display = 'none'
     }
     window.onload = clearQueue
 
