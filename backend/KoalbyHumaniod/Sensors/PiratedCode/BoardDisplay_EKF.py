@@ -1,3 +1,5 @@
+import time
+
 from backend.KoalbyHumaniod.Sensors.PiratedCode import Wireframe_EKF as wf
 import pygame
 from operator import itemgetter
@@ -40,23 +42,27 @@ class ProjectionViewer:
                     running = False
             self.clock.tick(loopRate)
             data = robot.get_imu_data()
+            if data is None:
+                continue
             if len(data) == 0 | len(data) != 9:  # error handling
                 continue
             self.wireframe.quatRotate([data[0], data[1], data[2]],  # gyro
                                       [data[3], data[4], data[5]],  # accele
-                                      [data[6], data[7], data[8]],  # magnetometer
+                                      [data[6], data[7], data[8]],  # magnetometer - no magnetometer on MPU
                                       1 / loopRate)
             if display == 1:
                 self.display()
                 pygame.display.flip()
-            if loop_counter > 4:
-                loop_counter = 0
-            else:
+            # if loop_counter < 4:
+            #     loop_counter = loop_counter + 1
+            # else:
                 yaw, pitch, roll = self.wireframe.getAttitude()
                 do_work(yaw, pitch, roll, robot)
-                loop_counter = loop_counter + 1
+                # loop_counter = 0
 
             i = i + 1
+            print(robot.get_imu_data())
+            time.sleep(.25)
         return self.wireframe.getAttitude()
 
     def display(self):

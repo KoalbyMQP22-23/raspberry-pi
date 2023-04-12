@@ -54,9 +54,12 @@ class Robot(ABC):
         a = [data[3], data[4], data[5]]  # accele
         m = [data[6], data[7], data[8]]  # magnetometer
         # quat rotate
-        self.sys.predict(w, dt)  # w = gyroscope
-        self.sys.update(a, m)  # a = acceleration, m = magnetometer
-        return KM.getEulerAngles(self.sys.xHat[0:4])
+
+        # TODO: FILTERING
+        # self.sys.predict(w, dt)  # w = gyroscope
+        # self.sys.update(a, m)  # a = acceleration, m = magnetometer
+        # return KM.getEulerAngles(self.sys.xHat[0:4])
+        return KM.getEulerAngles(data)
 
     @abstractmethod
     def open_hand(self):
@@ -205,7 +208,7 @@ class RealRobot(Robot):
             if num_piece != 0:
                 data.append(num_piece)
             else:
-                data.append(.01)
+                data.append(.000001)
         return data
 
     def read_battery_level(self):
