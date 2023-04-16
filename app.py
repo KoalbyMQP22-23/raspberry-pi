@@ -93,9 +93,9 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/home/pre-recorded/queue")
-def queue():
-    return render_template("queue.html")
+# @app.route("/home/pre-recorded/queue")
+# def queue():
+#     return render_template("queue.html")
 
 
 @app.route("/run", methods=['POST'])
@@ -116,14 +116,19 @@ def run():
     return Response("failure", mimetype="text/xml")
 
 
-@app.route("/home/pre-recorded/")
+@app.route("/pre-recorded/")
 def pre_recorded():
     return render_template("pre-recorded.html")
 
 
-@app.route("/home/record-new/")
+@app.route("/record-new/")
 def record_new():
     return render_template("record-new.html")
+
+
+@app.route("/sensor-data-page/")
+def sensor_data_page():
+    return render_template("sensor-data.html")
 
 
 @app.route("/record-one-new/", methods=['POST'])
@@ -200,5 +205,6 @@ def close_hand():
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.1.148', port=5000, debug=True, threaded=False)  #IP address here
+    app.run(host='172.20.10.2', port=5000, debug=True, threaded=False)
+    # app.run(host='192.168.1.148', port=5000, debug=True, threaded=False)  #IP address here
     # app.run(host='0.0.0.0', port=5000, debug=True, threaded=False)

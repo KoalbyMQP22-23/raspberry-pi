@@ -10,15 +10,20 @@ from backend.KoalbyHumaniod.Robot import RealRobot
 # for i in com_ports:
 #     print(i.device)  # returns 'COMx' / current COM port
 
-print("a")
 robot = RealRobot()  # inits real-world robot
-print(robot.get_imu_data())
 while True:
-    data = robot.get_imu_data()
-    print(data)
-    if data is not None:
-        print(robot.get_filtered_data(data))
-    time.sleep(.25)
+    print(robot.arduino_serial.send_command('41'))  # reads IMU data
+
+# print(robot.get_imu_data())
+# while True:
+#     data = robot.get_imu_data()
+#     print(data)
+#
+#     if data is not None:
+#         if len(data) != 9:
+#             continue
+#         print(robot.get_filtered_data(data))
+#     time.sleep(.25)
 
 # block = initializeCube()  # UNSURE WHAT THIS DOES SOMEONE COMMENT THIS
 # print("before viewer")

@@ -3,6 +3,16 @@
     color: inherit;
 }
 
+/*@font-face {*/
+/*  font-family: 'Inter';*/
+/*  src: url('inter.eot'); !* IE9 Compat Modes *!*/
+/*  src: url('inter.eot?#iefix') format('embedded-opentype'), !* IE6-IE8 *!*/
+/*       url('inter.woff2') format('woff2'), !* Super Modern Browsers *!*/
+/*       url('inter.woff') format('woff'), !* Pretty Modern Browsers *!*/
+/*       url('inter.ttf')  format('truetype'), !* Safari, Android, iOS *!*/
+/*       url('inter.svg#svgFontName') format('svg'); !* Legacy iOS *!*/
+/*}*/
+
 @media (pointer:none), (pointer:coarse) {
     .body-content {
         zoom: 250%;
@@ -28,6 +38,10 @@
 
 .child {
     display: inline-block;
+}
+
+.home_container{
+/*   border: 5px solid red; */
 }
 
 .init-button {
@@ -57,14 +71,16 @@
 }
 
 .tutorial-button {
-    display: inline-block;
+    display: inline-table;
     width: 40%;
-    height: 25px;
+    height: 50px;
+  border: none;
     background: #8c61ff;
-    padding: 10px;
     margin-bottom: 10px;
   margin-top: 10px;
     text-align: center;
+  font-size:18px;
+  margin-top: 30px;
     text-decoration: none;
     border-radius: 5px;
     color: white;

@@ -56,8 +56,8 @@ class Robot(ABC):
         # quat rotate
 
         # TODO: FILTERING
-        # self.sys.predict(w, dt)  # w = gyroscope
-        # self.sys.update(a, m)  # a = acceleration, m = magnetometer
+        self.sys.predict(w, dt)  # w = gyroscope
+        self.sys.update(a, m)  # a = acceleration, m = magnetometer
         # return KM.getEulerAngles(self.sys.xHat[0:4])
         return KM.getEulerAngles(data)
 
