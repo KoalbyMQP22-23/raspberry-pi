@@ -16,7 +16,7 @@
 
         <button id="walk" class="walk_button">Begin Walking</button>
     <a href=/pre-recorded class="button">Execute Movements</a>
-        <a href=/record-new class="button">Record New Movement</a>
+        <a id = "record-new" href=/record-new class="button">Record New Movement</a>
 
 {#        <button id="left-hand" class = "hand-button">Move Left Hand</button>#}
 {#        <button id="right-hand" class = "hand-button">Move Right Hand</button>#}
@@ -30,44 +30,62 @@
         localStorage.removeItem("queue");
         document.getElementById("closeHand").style.display = 'none'
         document.getElementById("openHand").style.display = 'none'
+        const request = new XMLHttpRequest();
+            request.onload = function () {
+                console.log(request.response)
+                if (!(request.response.isReal)){
+                    document.getElementById("record-new").style.display = "none";
+                }
+            };
+            request.open("GET", "/is-real", true);
+            request.send();
     }
     window.onload = clearQueue
+    var isWalking = true
 
     var button = document.getElementById("walk");
         button.addEventListener("click", function (e) {
             console.log("Walk clicked");
+            if(isWalking){
+                    document.getElementById("walk").innerText = "Stop Walking";
+                    isWalking = false
+                }
+                else{
+                    document.getElementById("walk").innerText = "Begin Walking";
+                    isWalking = true
+                }
             e.preventDefault();
             const request = new XMLHttpRequest();
             request.onload = function () {
                 document.getElementById('descriptor').innerHTML = request.response;
+
             };
             request.open("GET", "/walk-toggle", true);
             request.send();
         });
 
-        var openHandButton = document.getElementById("openHand");
-        openHandButton.addEventListener("click", function (e) {
-            console.log("Opening Hand");
-            e.preventDefault();
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                document.getElementById('handMessage').innerHTML = request.response;
-            };
-            request.open("GET", "/open-hand/", true);
-            request.send();
-        });
-
-        var closeHandButton = document.getElementById("closeHand");
-        closeHandButton.addEventListener("click", function (e) {
-            console.log("Closing Hand");
-            e.preventDefault();
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                document.getElementById('handMessage').innerHTML = request.response;
-            };
-            request.open("GET", "/close-hand/", true);
-            request.send();
-        });
+        {#var openHandButton = document.getElementById("openHand");#}
+        {#openHandButton.addEventListener("click", function (e) {#}
+        {#    console.log("Opening Hand");#}
+        {#    e.preventDefault();#}
+        {#    const request = new XMLHttpRequest();#}
+        {#    request.onload = function () {#}
+        {#        document.getElementById('handMessage').innerHTML = request.response;#}
+        {#    };#}
+        {#    request.open("GET", "/open-hand/", true);#}
+        {#    request.send(); }#}
+        {#);#}
+        {##}
+        {#var closeHandButton = document.getElementById("closeHand");#}
+        {#closeHandButton.addEventListener("click", function (e) {#}
+        {#    console.log("Closing Hand");#}
+        {#    e.preventDefault();#}
+        {#    const request = new XMLHttpRequest();#}
+        {#    request.onload = function () {#}
+        {#        document.getElementById('handMessage').innerHTML = request.response;#}
+        {#    };#}
+        {#    request.open("GET", "/close-hand/", true);#}
+        {#    request.send();});#}
 
         var tutorialButton = document.getElementById("tutorial");
         tutorialButton.addEventListener("click", function (e) {

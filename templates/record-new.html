@@ -21,7 +21,7 @@
                     <input type="text" id="fileName">
                 </div>
                 <div>
-                    <button type="button" onclick="myFunction()">Submit</button>
+                    <button id="submit-button" type="button" >Submit</button>
                 </div>
                 <div id="additionDiv">
                     <p id="numPoses"></p>
@@ -36,7 +36,13 @@
         let x = 0;
         let firstNum = 0;
         let enteredName = "";
-        function myFunction() {
+
+        var recordButton = document.getElementById("record-button");
+
+        var submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log("Submit pressed")
             x = document.getElementById("poseNum").value;
             const div = document.getElementById("numPoses");
             enteredName = document.getElementById("fileName").value;
@@ -50,11 +56,9 @@
             ticker.appendChild(text);
             div.appendChild(ticker);
             document.getElementById("record-button").style.display = "block";
-        }
+        });
 
-        var recordButton = document.getElementById("record-button");
         recordButton.addEventListener("click", function (e) {
-
             x -= 1;
             if(x === 0){
                 recordButton.disabled = "true"

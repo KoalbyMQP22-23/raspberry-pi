@@ -110,7 +110,7 @@ def run():
     if content_type == 'application/json':
         q_list = request.get_json()
         # TODO: make sure the 1s aren't hard coded
-        MovementManager.split_list(robot, q_list, 1, 1) # parses JSON then executes queue
+        MovementManager.split_list(robot, q_list, 1, 1)  # parses JSON then executes queue
         return Response("finished", mimetype="text/xml")
     # return failure
     return Response("failure", mimetype="text/xml")
@@ -158,7 +158,7 @@ def sensor_data():
     :return: JSON of sensor data
     """
     data = sensor_data.get_data()
-    json_object = json.dumps(data) # formats into actual JSON object
+    json_object = json.dumps(data)  # formats into actual JSON object
     return Response(json_object, mimetype="text/xml")
 
 
@@ -171,7 +171,6 @@ def walk_toggle():
     global walker
     walker.toggle("walk", 1, 1, robot)
     return Response("Robot toggled walking", mimetype="text/xml")
-
 
 
 @app.route("/open-hand/")
@@ -202,6 +201,14 @@ def close_hand():
     """
     robot.close_hand()
     return Response("Closing Hand", mimetype="text/xml")
+
+
+@app.route("/is-real")
+def realHuh():
+    real_flag = robot.is_real
+    print(real_flag)
+    json_object = json.dumps({"isReal": real_flag})  # formats into actual JSON object
+    return Response(json_object, mimetype="text/xml")
 
 
 if __name__ == '__main__':
