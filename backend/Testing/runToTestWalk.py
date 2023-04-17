@@ -10,7 +10,11 @@ from backend.Simulation import sim as vrep
 class Walker:
     def __init__(self):
         self.client_id = None
-        self.isWalking = None
+        self.is_walking = None
+        self.position_list = None
+        self.keys = None
+        self.right_leg_positions = None
+        self.left_leg_positions = None
 
     def init_sim(self):
 
@@ -21,25 +25,24 @@ class Walker:
         else:
             sys.exit("Not connected to remote API server")
 
-    def toggle(self, filename, leg_choice, tf, robot):
-        if self.isWalking:
-            self.isWalking = False
-        else:
-            self.isWalking = True
-            self.play(filename, leg_choice, tf, robot)
+    # def toggle(self, filename, leg_choice, tf, robot):
+    #     if self.is_walking:
+    #         self.is_walking = False
+    #     else:
+    #         self.is_walking = True
+    #         self.play(filename, leg_choice, tf, robot)
 
-    def play(self, replay_filename, leg_choice, tf, robot):
-        traj_planner = TrajPlanner()
-        right_leg_positions = []
-        left_leg_positions = []
+    def init_walk(self, leg_choice):
+        self.right_leg_positions = []
+        self.left_leg_positions = []
         # TODO: make this not an absolute filepath
         with open(
                 "/Users/caseysnow/Desktop/MQP/flask-project/backend/Primitives/poses/leftWalk") as f:
             # with open(poses/replay_filename) as f:
             csv_recorded_poses = [{k: int(v) for k, v in row.items()}
-                                for row in
-                                csv.DictReader(f,
-                                               skipinitialspace=True)]  # parses selected csv file into list of poses
+                                  for row in
+                                  csv.DictReader(f,
+                                                 skipinitialspace=True)]  # parses selected csv file into list of poses
         for poseMotorPositionsDict in csv_recorded_poses:  # for each pose in the list of recorded poses
             intermediate_position_left = []
             intermediate_position_right = []
@@ -49,38 +52,39 @@ class Walker:
                     intermediate_position_left.append(dummy_position[key])
                 if key == '17' or key == '19' or key == '20':
                     intermediate_position_right.append(dummy_position[key])
-            left_leg_positions.append(intermediate_position_left)
-            right_leg_positions.append(intermediate_position_right)
-        print(right_leg_positions)
-        print(left_leg_positions)
+            self.left_leg_positions.append(intermediate_position_left)
+            self.right_leg_positions.append(intermediate_position_right)
+        # print(right_leg_positions)
+        # print(left_leg_positions)
 
         if leg_choice == 1:
-            position_list = left_leg_positions
-            keys = [13, 14, 15]
+            self.position_list = self.left_leg_positions
+            self.keys = [13, 14, 15]
         else:
-            position_list = right_leg_positions
-            keys = [18, 19, 20]
+            self.position_list = self.right_leg_positions
+            self.keys = [18, 19, 20]
 
+        # numSteps = 0
+
+    def play(self, leg_choice, tf, robot, stop_flags, thread_id):
         t0 = 0
         v0 = 0
         vf = 0
-
-        # numSteps = 0
-        while self.isWalking:
-
-            iterate_through_this = traj_planner.execute_cubic_traj(position_list, keys, t0, tf, v0, vf)
+        traj_planner = TrajPlanner()
+        while not stop_flags[thread_id]:
+            iterate_through_this = traj_planner.execute_cubic_traj(self.position_list, self.keys, t0, tf, v0, vf)
 
             play_motion_kinematics(robot, iterate_through_this)
 
             if leg_choice == 1:
                 leg_choice = 2
-                position_list = right_leg_positions
-                keys = [18, 19, 20]
+                self.position_list = self.right_leg_positions
+                self.keys = [18, 19, 20]
 
             elif leg_choice == 2:
                 leg_choice = 1
-                position_list = left_leg_positions
-                keys = [13, 14, 15]
+                self.position_list = self.left_leg_positions
+                self.keys = [13, 14, 15]
 
 
 if __name__ == "__main__":

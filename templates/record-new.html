@@ -3,8 +3,8 @@
     Record New Movement
 {% endblock %}
 {% block content %}
-    <div class = "header">
-    <h1>Record New Movements</h1>
+    <div class="header">
+        <h1>Record New Movements</h1>
     </div>
     <div>
         <div class='child' style="display:inline-block">
@@ -14,14 +14,14 @@
                 <div class="posesInputGroup">
                     <label for="poses">Enter amount of positions to record:</label>
                     <input type="number" id="poseNum">
-{#                    <span class="validity"></span>#}
+                    {#                    <span class="validity"></span>#}
                 </div>
                 <div class="posesInputGroup">
                     <label for="file">Enter the new filename you would like to use:</label>
                     <input type="text" id="fileName">
                 </div>
                 <div>
-                    <button id="submit-button" type="button" >Submit</button>
+                    <button id="submit-button" type="button">Submit</button>
                 </div>
                 <div id="additionDiv">
                     <p id="numPoses"></p>
@@ -60,7 +60,7 @@
 
         recordButton.addEventListener("click", function (e) {
             x -= 1;
-            if(x === 0){
+            if (x === 0) {
                 recordButton.disabled = "true"
             }
             document.getElementById('recordingSpot').innerHTML = "recording";
@@ -76,8 +76,8 @@
             } else {
                 isFirst = false;
             }
-            request.send(JSON.stringify({"fileName" : enteredName, "firstTime" : isFirst}));
-            console.log(JSON.stringify({"fileName" : enteredName, "firstTime" : isFirst}));
+            request.send(JSON.stringify({"fileName": enteredName, "firstTime": isFirst}));
+            console.log(JSON.stringify({"fileName": enteredName, "firstTime": isFirst}));
             e.preventDefault();
             document.getElementById("ticker").innerText = ("You have " + x + " more poses to record");
         });

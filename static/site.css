@@ -34,6 +34,7 @@
   background: #3d3d3d;
   color: white;
   font-size: 20px;
+  margin-bottom: 10px;
 }
 
 .child {
@@ -61,13 +62,22 @@
 
 
 .shutdown-button {
-
     width: 100%;
     background: #ca4350;
     text-decoration: none;
     color: white;
     font-weight: bold;
     line-height: 30px;
+}
+
+.backButton {
+    width: 100%;
+    background: #36c3fe;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    line-height: 30px;
+  padding: 10px;
 }
 
 .tutorial-button {

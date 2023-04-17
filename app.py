@@ -1,5 +1,6 @@
 # import null as null
 import json
+import threading
 
 from flask import Flask, Response, request
 from flask import render_template
@@ -35,6 +36,7 @@ def init():
     global robot
     global walker
     walker = Walker()
+    walker.init_walk(1)  # 1 is leg choice. Not giving this choice to the user
     sensor_data = SensorData()
     try:
         robot = RealRobot()
@@ -70,6 +72,7 @@ def init_simulation():
     global client_id
     global walker
     walker = Walker()
+    walker.init_walk(1)  # 1 is leg choice. Not giving this choice to the user
 
     # TODO: this is duplicated lots of places
     vrep.simxFinish(-1)  # just in case, close all opened connections
@@ -162,6 +165,11 @@ def sensor_data():
     return Response(json_object, mimetype="text/xml")
 
 
+# Need this for threading walk
+threads = []
+stop_flags = []
+
+
 @app.route("/walk-toggle/")
 def walk_toggle():
     """
@@ -169,8 +177,18 @@ def walk_toggle():
     :return: Robot finished walking to the user. Will only return after robot stops walking
     """
     global walker
-    walker.toggle("walk", 1, 1, robot)
-    return Response("Robot toggled walking", mimetype="text/xml")
+    if not walker.is_walking:
+        stop_flags.append(False)
+        thread = threading.Thread(target=walker.play, args=(1, 1, robot, stop_flags, len(stop_flags) - 1,))
+        threads.append(thread)
+        thread.start()
+        walker.is_walking = True
+        return Response("Robot began walking", mimetype="text/xml")
+    else:
+        stop_flags[-1] = True
+        walker.is_walking = False
+        return Response("Robot stopped walking", mimetype="text/xml")
+    # walker.toggle("walk", 1, 1, robot)
 
 
 @app.route("/open-hand/")

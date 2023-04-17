@@ -22,19 +22,23 @@
     </div>
     <div id=sensor-data-info>
         <p id="battery-level"></p>
-{#        <p id="tf-luna-dist"></p>#}
+        {#        <p id="tf-luna-dist"></p>#}
         <p id="raw-imu"></p>
         <p id="pitch-roll-yaw"></p>
-{#        <p id="husky-lens"></p>#}
+        {#        <p id="husky-lens"></p>#}
     </div>
-<div class="navbar" id="navbar">
-  <a href="/home" class="active" onclick="myFunction()">Home</a>
-  <a href="/pre-recorded" onclick="myFunction()">Pre Recorded</a>
-  <a href=/record-new onclick="myFunction()">Record New</a>
-    <a href=/sensor-data-page onclick="myFunction()">Sensor Data</a>
-    <a href="" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
-{#    &#9776;#}
-</div>
+    <div>
+        <div class="navbar" id="navbar">
+            <a href="/home" class="active" onclick="myFunction()">Home</a>
+            <a href="/pre-recorded" onclick="myFunction()">Pre Recorded</a>
+            <a href=/record-new onclick="myFunction()">Record New</a>
+            <a href=/sensor-data-page onclick="myFunction()">Sensor Data</a>
+            <a href="" class="shutdown-button" id="shutdownButton">SHUTDOWN</a>
+            {#    &#9776;#}
+        </div>
+
+    </div>
+
     <script>
 
         const ctx = document.getElementById('imu-chart');
@@ -89,17 +93,17 @@
         });
 
         function myFunction() {
-  var x = document.getElementById("navbar");
-  if (x.className === "navbar") {
-    x.className += " responsive";
-  } else {
-    x.className = "navbar";
-  }
-}
+            var x = document.getElementById("navbar");
+            if (x.className === "navbar") {
+                x.className += " responsive";
+            } else {
+                x.className = "navbar";
+            }
+        }
 
         function updateData() {
             const request = new XMLHttpRequest();
-            if(!shown){
+            if (!shown) {
                 return;
             }
             request.onload = function () {
@@ -162,18 +166,17 @@
         var sensorDataButton = document.getElementById("sensorDataButton");
         sensorDataButton.addEventListener("click", function (e) {
             e.preventDefault();
-            if (!shown){
+            if (!shown) {
                 shown = true;
                 document.getElementById("sensorDataButton").innerText = "Hide Sensor Data"
                 document.getElementById("sensor-data-info").style.display = "block";
-            document.getElementById("imu-chart").style.display = "block";
-            window.onclick = updateData
-            }
-            else{
+                document.getElementById("imu-chart").style.display = "block";
+                window.onclick = updateData
+            } else {
                 shown = false;
                 document.getElementById("sensorDataButton").innerText = "Show Sensor Data"
                 document.getElementById("sensor-data-info").style.display = "none";
-            document.getElementById("imu-chart").style.display = "none";
+                document.getElementById("imu-chart").style.display = "none";
             }
 
         });

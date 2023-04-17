@@ -3,57 +3,57 @@
     Home
 {% endblock %}
 {% block content %}
-    <div class = "header">
-    <h1>Home</h1>
+    <div class="header">
+        <h1>Home</h1>
     </div>
 
 
-    <div class ="home_container">
+    <div class="home_container">
 
-        <p id =descriptor>Koalby has been initialized! Select one of the following to see what he can do.</p>
+        <p id=descriptor>Koalby has been initialized! Select one of the following to see what he can do.</p>
         <button id="tutorial" class="tutorial-button">Help</button>
 
 
         <button id="walk" class="walk_button">Begin Walking</button>
-    <a href=/pre-recorded class="button">Execute Movements</a>
-        <a id = "record-new" href=/record-new class="button">Record New Movement</a>
+        <a href=/pre-recorded class="button">Execute Movements</a>
+        <a id="record-new" href=/record-new class="button">Record New Movement</a>
 
-{#        <button id="left-hand" class = "hand-button">Move Left Hand</button>#}
-{#        <button id="right-hand" class = "hand-button">Move Right Hand</button>#}
+        {#        <button id="left-hand" class = "hand-button">Move Left Hand</button>#}
+        {#        <button id="right-hand" class = "hand-button">Move Right Hand</button>#}
 
         <button id="closeHand" class="move_button">Close</button>
         <button id="openHand" class="move_button">Open</button>
     </div>
     <script>
 
-    function clearQueue() {
-        localStorage.removeItem("queue");
-        document.getElementById("closeHand").style.display = 'none'
-        document.getElementById("openHand").style.display = 'none'
-        const request = new XMLHttpRequest();
+        function clearQueue() {
+            localStorage.removeItem("queue");
+            document.getElementById("closeHand").style.display = 'none'
+            document.getElementById("openHand").style.display = 'none'
+            const request = new XMLHttpRequest();
             request.onload = function () {
                 console.log(request.response)
-                if (!(request.response.isReal)){
+                if (!(request.response.isReal)) {
                     document.getElementById("record-new").style.display = "none";
                 }
             };
             request.open("GET", "/is-real", true);
             request.send();
-    }
-    window.onload = clearQueue
-    var isWalking = true
+        }
 
-    var button = document.getElementById("walk");
+        window.onload = clearQueue
+        var isWalking = true
+
+        var button = document.getElementById("walk");
         button.addEventListener("click", function (e) {
             console.log("Walk clicked");
-            if(isWalking){
-                    document.getElementById("walk").innerText = "Stop Walking";
-                    isWalking = false
-                }
-                else{
-                    document.getElementById("walk").innerText = "Begin Walking";
-                    isWalking = true
-                }
+            if (isWalking) {
+                document.getElementById("walk").innerText = "Stop Walking";
+                isWalking = false
+            } else {
+                document.getElementById("walk").innerText = "Begin Walking";
+                isWalking = true
+            }
             e.preventDefault();
             const request = new XMLHttpRequest();
             request.onload = function () {
