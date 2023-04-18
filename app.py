@@ -11,6 +11,7 @@ from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
 from backend.Testing.runToTestWalk import Walker
 
+
 app = Flask(__name__)
 
 robot = None
