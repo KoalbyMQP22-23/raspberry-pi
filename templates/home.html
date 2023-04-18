@@ -30,15 +30,6 @@
             localStorage.removeItem("queue");
             document.getElementById("closeHand").style.display = 'none'
             document.getElementById("openHand").style.display = 'none'
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                console.log(request.response)
-                if (!(request.response.isReal)) {
-                    document.getElementById("record-new").style.display = "none";
-                }
-            };
-            request.open("GET", "/is-real", true);
-            request.send();
         }
 
         window.onload = clearQueue

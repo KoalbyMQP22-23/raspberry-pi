@@ -20,7 +20,7 @@ class Walker:
         self.left_leg_positions = []
         # TODO: make this not an absolute filepath
         with open(
-                "/Users/caseysnow/Desktop/MQP/flask-project/backend/Primitives/poses/leftWalk") as f:
+                "./backend/Primitives/poses/leftWalk") as f:
             # with open(poses/replay_filename) as f:
             csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                                   for row in

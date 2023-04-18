@@ -188,13 +188,6 @@ def close_hand():
     return Response("Closing Hand", mimetype="text/xml")
 
 
-@app.route("/is-real")
-def realHuh():
-    real_flag = robot.is_real
-    print(real_flag)
-    json_object = json.dumps({"isReal": real_flag})  # formats into actual JSON object
-    return Response(json_object, mimetype="text/xml")
-
 
 if __name__ == '__main__':
     app.run(host='172.20.10.2', port=5000, debug=True, threaded=False)
