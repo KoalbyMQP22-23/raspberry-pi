@@ -61,7 +61,7 @@ class ProjectionViewer:
                 # loop_counter = 0
 
             i = i + 1
-            print(robot.get_imu_data())
+            # print(robot.get_imu_data())
             time.sleep(.25)
         return self.wireframe.getAttitude()
 
@@ -71,7 +71,7 @@ class ProjectionViewer:
 
         # Get the current attitude
         yaw, pitch, roll = self.wireframe.getAttitude()
-        # print(yaw, pitch, roll)
+        print(yaw, pitch, roll)
         # Sensors.do_work(yaw, pitch, roll)
         self.messageDisplay("Yaw: %.1f" % yaw,
                             self.screen.get_width() * 0.75,

@@ -71,7 +71,8 @@ class Walker:
         v0 = 0
         vf = 0
         traj_planner = TrajPlanner()
-        while not stop_flags[thread_id]:
+        # while not stop_flags[thread_id]:
+        while True:
             iterate_through_this = traj_planner.execute_cubic_traj(self.position_list, self.keys, t0, tf, v0, vf)
 
             play_motion_kinematics(robot, iterate_through_this)
@@ -104,5 +105,6 @@ if __name__ == "__main__":
     legChoice = float(input("Enter 1 to move left leg or 2 to move right leg:"))
     tf = float(input("Enter trajectory time (seconds):"))
     walker.isWalking = True
-    walker.play(replay_filename, legChoice, tf, robot)
-    walker.isWalking = bool(input("False to stop walking"))
+    walker.init_walk(legChoice)
+    while True:
+        walker.play(legChoice, tf, robot, [], [])

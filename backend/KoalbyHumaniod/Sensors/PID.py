@@ -18,24 +18,25 @@ def do_work(yaw, pitch, roll, robot):
         #
         #
         # vrep.simxSetJointTargetPosition(client_id, handle, control, vrep.simx_opmode_streaming)
-        print("Simulation already has PID")
+        # print("Simulation already has PID")
         pass
 
-    pose_motor_positions_dict = {}
+    else:
+        pose_motor_positions_dict = {}
 
-    print("pitch angle is {}".format(pitch))
-    control_pitch = pitch_pid(pitch)
-    print("control is {}".format(control_pitch))
-    pose_motor_positions_dict[robot.get_motor(21)] = control_pitch
+        print("pitch angle is {}".format(pitch))
+        control_pitch = pitch_pid(pitch)
+        print("control is {}".format(control_pitch))
+        pose_motor_positions_dict[robot.get_motor(21)] = control_pitch
 
-    print("roll angle is {}".format(roll))
-    control_roll = roll_pid(pitch)
-    print("control is {}".format(control_roll))
-    pose_motor_positions_dict[robot.get_motor(9)] = control_roll
+        print("roll angle is {}".format(roll))
+        control_roll = roll_pid(pitch)
+        print("control is {}".format(control_roll))
+        pose_motor_positions_dict[robot.get_motor(9)] = control_roll
 
-    print("yaw angle is {}".format(yaw))
-    control_yaw = yaw_pid(yaw)
-    print("control is {}".format(control_yaw))
-    # pose_motor_positions_dict[robot.get_motor(21)] = control_yaw # IDK if there's a yaw motor
+        print("yaw angle is {}".format(yaw))
+        control_yaw = yaw_pid(yaw)
+        print("control is {}".format(control_yaw))
+        # pose_motor_positions_dict[robot.get_motor(21)] = control_yaw # IDK if there's a yaw motor
 
-    robot.update_motors(250, pose_motor_positions_dict)
+        robot.update_motors(250, pose_motor_positions_dict)

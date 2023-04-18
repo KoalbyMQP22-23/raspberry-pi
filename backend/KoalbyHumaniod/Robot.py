@@ -55,7 +55,6 @@ class Robot(ABC):
         m = [data[6], data[7], data[8]]  # magnetometer
         # quat rotate
 
-        # TODO: FILTERING
         self.sys.predict(w, dt)  # w = gyroscope
         self.sys.update(a, m)  # a = acceleration, m = magnetometer
         # return KM.getEulerAngles(self.sys.xHat[0:4])

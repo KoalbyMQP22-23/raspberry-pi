@@ -23,8 +23,8 @@
     <div id=sensor-data-info>
         <p id="battery-level"></p>
         {#        <p id="tf-luna-dist"></p>#}
-        <p id="raw-imu"></p>
-        <p id="pitch-roll-yaw"></p>
+        <p class= "data-text" id="raw-imu"></p>
+        <p class= "data-text" id="pitch-roll-yaw"></p>
         {#        <p id="husky-lens"></p>#}
     </div>
     <div>
@@ -108,10 +108,11 @@
             }
             request.onload = function () {
                 const jsonRes = JSON.parse(request.response);
-                document.getElementById("battery-level").innerHTML = jsonRes.battery_level;
+                {#document.getElementById("battery-level").innerHTML = jsonRes.battery_level;#}
                 {#document.getElementById("tf-luna-dist").innerHTML = "TF Luna Distance is: " + jsonRes.tf_luna_data;#}
                 document.getElementById("raw-imu").innerHTML = "Raw IMU Data is: " + jsonRes.imu_data[0] + ", " + jsonRes.imu_data[1] + ", " + jsonRes.imu_data[2];
-                document.getElementById("pitch-roll-yaw").innerHTML = "Pitch is: " + jsonRes.pitch_roll_yaw[0] + ", Roll is: " + jsonRes.pitch_roll_yaw[1] + ", and Yaw is: " + jsonRes.pitch_roll_yaw[2];
+                {#document.getElementById("pitch-roll-yaw").innerHTML = "Pitch is: " + jsonRes.pitch_roll_yaw[0] + ", Roll is: " + jsonRes.pitch_roll_yaw[1] + ", and Yaw is: " + jsonRes.pitch_roll_yaw[2];#}
+                document.getElementById("pitch-roll-yaw").innerHTML = "Pitch is: " + jsonRes.pitch_roll_yaw[0] + ", Roll is: " + jsonRes.pitch_roll_yaw[1];
                 {#document.getElementById("husky-lens").innerHTML = "Husky Lens Data is: " + jsonRes.husky_lens_data;#}
                 {#document.getElementById("battery-level-bar").innerHTML = jsonRes.battery_level + "%";#}
                 {#document.getElementById("battery-level-bar").style.width = 79;#}
