@@ -71,7 +71,7 @@ def record_motion_ui(robot, file_name, first_time):
     pose_motor_positions_dict = {}
     time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
     for m in robot.motors:  # for each motor in Motors list
-        pose_motor_positions_dict[m.motorID] = m.getPosition()  # add the motor ID as key and motor position as
+        pose_motor_positions_dict[m.motorID] = m.getPosition("")  # add the motor ID as key and motor position as
         # value
         recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of
         # recorded poses

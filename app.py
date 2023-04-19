@@ -35,6 +35,7 @@ def init():
     """
     global robot
     global walker
+    global sensor_data
     walker = Walker()
     walker.init_walk(1)  # 1 is leg choice. Not giving this choice to the user
     sensor_data = SensorData()
@@ -122,6 +123,7 @@ def record_one_new():
 
 @app.route("/sensor-data/")
 def sensor_data():
+    global sensor_data
     """
     When view sensor data button is clicked, this method is called
     Will auto-populate data chart
