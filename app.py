@@ -11,7 +11,6 @@ from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
 from backend.Testing.runToTestWalk import Walker
 
-
 app = Flask(__name__)
 
 robot = None
@@ -58,6 +57,7 @@ def shutdown():
     global robot
     robot.shutdown()  # works
     return Response("1", mimetype="text/xml")
+
 
 @app.route("/home/")
 def home():
@@ -188,7 +188,6 @@ def close_hand():
     """
     robot.close_hand()
     return Response("Closing Hand", mimetype="text/xml")
-
 
 
 if __name__ == '__main__':
