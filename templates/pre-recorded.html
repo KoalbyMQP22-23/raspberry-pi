@@ -11,16 +11,17 @@
         <div class='child' style="display:inline-block">
             <a href="/home" class="backButton">&laquo; Back</a>
             <p>Select a movement to add to the Queue</p>
-            <button id="waveButton" class="command">Wave</button>
-            <button id="clapButton" class="command ">Clap</button>
-            <button id="handLoopButton" class="command">Hand Loop</button>
-            <button id="" class="command">Something Else</button>
-            <button id="" class="command">Something Else</button>
-            {#            {% for label, command in commands.items() %}#}
-            {#                <button class="command command-{{ command }}" value="{{ command }}">#}
-            {#                    {{ label }}#}
-            {#                </button>#}
-            {#            {% endfor %}#}
+            {#            <button id="waveButton" class="command">Wave</button>#}
+            {#            <button id="clapButton" class="command ">Clap</button>#}
+            {#            <button id="handLoopButton" class="command">Hand Loop</button>#}
+            {#            <button id="" class="command">Something Else</button>#}
+            {#            <button id="" class="command">Something Else</button>#}
+            {% for command in movements_list %}
+{#                <button class="command-{{ command }}" value="{{ command }}">#}
+                <button class="command">
+                    {{ command }}
+                </button>
+            {% endfor %}
         </div>
         <div class='child' style="display:inline-block">
             <p>Queue Preview</p>

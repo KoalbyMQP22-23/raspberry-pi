@@ -2,6 +2,11 @@ import csv
 import time
 
 
+class Poses:
+    def __init__(self):
+        self.poses = ["Wave", "Clap", "Dab"]
+
+
 def split_list(robot, primitive_list, pose_time, pose_delay):
     if "," in primitive_list:
         arr = primitive_list.split(", ")
@@ -31,7 +36,7 @@ def play_motion(robot, file_name, pose_time, pose_delay):
         time.sleep(pose_time + pose_delay)
 
 
-def record_motion(robot, pose_num):
+def record_motion(robot, pose_num, poses):
     recorded_poses = []
     """
             Records a series of manually positioned robot poses with a desired number of poses and saves them to a csv file
@@ -47,22 +52,25 @@ def record_motion(robot, pose_num):
             for m in robot.motors:  # for each motor in Motors list
                 pose_motor_positions_dict[
                     m.motor_id] = m.get_position("")  # add the motor ID as key and motor position as value
-            recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of recorded poses
+            recorded_poses.append(
+                pose_motor_positions_dict)  # add dictionary of current robot pose to list of recorded poses
         continue_select = 0
         time.sleep(0.01)  # comms buffer delay
     # write dictionary of recorded poses to csv file
-    motorIDHeaders = recorded_poses[0].keys()
-    motionFile = open(str(input("Input saved file name:")), "w")  # request a filename
-    dict_writer = csv.DictWriter(motionFile, motorIDHeaders)
+    motor_id_headers = recorded_poses[0].keys()
+    motion_file_name = str(input("Input saved file name:"))  # request a filename
+    motion_file = open("./backend/Primitives/poses/" + str(motion_file_name), "w")
+    dict_writer = csv.DictWriter(motion_file, motor_id_headers)
     dict_writer.writeheader()
     dict_writer.writerows(recorded_poses)
-    motionFile.close()
+    motion_file.close()
+    poses.append(motion_file_name)
     for m in robot.motors:
         m.compliant_toggle(0)  # set motors back to non-compliant for use elsewhere
         time.sleep(0.05)  # need delay for comm time
 
 
-def record_motion_ui(robot, file_name, first_time):
+def record_motion_ui(robot, file_name, first_time, poses):
     global recorded_poses
     for m in robot.motors:
         m.compliantOnOff(1)  # sets all motors in the robot to be compliant for moving to poses
@@ -82,6 +90,7 @@ def record_motion_ui(robot, file_name, first_time):
     with open(file_name, 'a') as file1:
         if first_time:
             file1.writelines(motor_id_headers)
+            poses.append(file_name)
         file1.writelines(recorded_poses)
     file1.close()
     for m in robot.motors:

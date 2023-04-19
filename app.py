@@ -9,6 +9,7 @@ from serial import SerialException
 from backend.KoalbyHumaniod.Robot import RealRobot
 from backend.KoalbyHumaniod.Sensors.sensorData import SensorData
 from backend.Primitives import MovementManager
+from backend.Primitives.MovementManager import Poses
 from backend.Testing.runToTestWalk import Walker
 
 app = Flask(__name__)
@@ -18,6 +19,7 @@ sensor_data = None
 client_id = -1
 walker = None
 hand = None
+pose_list = Poses()
 
 
 @app.route("/")
@@ -87,9 +89,15 @@ def run():
     return Response("failure", mimetype="text/xml")
 
 
+pose_list = Poses()
+movements_list = pose_list.poses
+
+
 @app.route("/pre-recorded/")
 def pre_recorded():
-    return render_template("pre-recorded.html")
+    global movements_list
+    movements_list = pose_list.poses
+    return render_template("pre-recorded.html", movements_list=movements_list)
 
 
 @app.route("/record-new/")
@@ -109,13 +117,13 @@ def record_one_new():
     Records poese one by one and writes to filename each time
     :return: Finished Recording if record was successful, failure if not
     """
-    global client_id
+    global client_id, pose_list
     content_type = request.headers.get('Content-Type')
     if content_type == 'application/json':
         file_and_first = request.get_json()
         file_name = file_and_first["fileName"]
         first = file_and_first["firstTime"]
-        MovementManager.record_motion_ui(robot, file_name, first)
+        MovementManager.record_motion_ui(robot, file_name, first, pose_list)
         return Response("Finished Recording", mimetype="text/xml")
     # return failure
     return Response("failure", mimetype="text/xml")
