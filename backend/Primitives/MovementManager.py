@@ -126,9 +126,9 @@ def record_motion_ui(robot, file_name, first_time, pose_list):
     # write dictionary of recorded poses to csv file
 
     motor_id_headers = recorded_poses[0].keys()
-    motion_file_name = str(input("Input saved file name:"))  # request a filename
-    motion_file = open("/home/casey/Desktop/raspberry-pi/backend/Primitives/poses/" + str(motion_file_name),
+    motion_file = open("/home/casey/Desktop/raspberry-pi/backend/Primitives/poses/" + str(file_name),
                        "w")
+    pose_list.append(file_name)
     dict_writer = csv.DictWriter(motion_file, motor_id_headers)
     if first_time:
         dict_writer.writeheader()
