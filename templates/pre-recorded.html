@@ -17,54 +17,75 @@
             {#            <button id="" class="command">Something Else</button>#}
             {#            <button id="" class="command">Something Else</button>#}
             {% for command in movements_list %}
-{#                <button class="command-{{ command }}" value="{{ command }}">#}
-                <button class="command">
+                {#                <button class="command-{{ command }}" value="{{ command }}">#}
+                <button class="command" id="{{ command }}" onclick="addButton(this.id)">
                     {{ command }}
                 </button>
             {% endfor %}
         </div>
-        <div class='child' style="display:inline-block">
+        <div class='qPrev' style="display:inline-block">
             <p>Queue Preview</p>
             <div>
                 {#                <a href="queue" class="button">View Queue</a>#}
                 <p id="queue"></p>
-                <button id="runButton">RUN</button>
+                <button class="runButton" id="runButton">RUN</button>
                 <p id="running"></p>
             </div>
         </div>
     </div>
 
     <script>
-        var waveButton = document.getElementById("waveButton");
-        waveButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            localStorage.setItem("queue", localStorage.getItem("queue") + ", wave");
+
+        function showQueue() {
+            const queueArr = localStorage.getItem("queue").split(",")
+            for (const queueElement in queueArr) {
+                if(queueArr[queueElement] === 'null'){
+                    continue
+                }
+                console.log(queueArr[queueElement]);
+                const newP = document.createElement("p");
+                newP.innerText = queueArr[queueElement];
+                document.getElementById("queue").append(newP);
+            }
+        }
+
+        function addButton(clicked_id) {
+            localStorage.setItem("queue", localStorage.getItem("queue") + "," + clicked_id);
             console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))
-            const waveP = document.createElement("p");
-            waveP.innerText = "Wave";
-            document.getElementById("queue").append(waveP);
-        });
-        var clapButton = document.getElementById("clapButton");
-        clapButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            localStorage.setItem("queue", localStorage.getItem("queue") + ", clap");
-            console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))
-            const clapP = document.createElement("p");
-            clapP.innerText = "Clap";
-            document.getElementById("queue").append(clapP);
-            const up = document.createElement("button");
-            up.innerText = "+";
-            document.getElementById("queue").append(up);
-            {#document.getElementById("queue").innerText += "clap";#}
-        });
-        var handLoopButton = document.getElementById("handLoopButton");
-        handLoopButton.addEventListener("click", function (e) {
-            localStorage.setItem("queue", localStorage.getItem("queue") + ", hand loop");
-            console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))
-            const handLoopP = document.createElement("p");
-            handLoopP.innerText = "Hand Loop";
-            document.getElementById("queue").append(handLoopP);
-        });
+            const newP = document.createElement("p");
+            newP.innerText = clicked_id;
+            document.getElementById("queue").append(newP);
+        }
+
+        window.onload = showQueue
+
+        {#var waveButton = document.getElementById("waveButton");#}
+        {#waveButton.addEventListener("click", function (e) {#}
+        {#    e.preventDefault();#}
+        {#    localStorage.setItem("queue", localStorage.getItem("queue") + ", wave");#}
+        {#    console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))#}
+        {#    const waveP = document.createElement("p");#}
+        {#    waveP.innerText = "Wave";#}
+        {#    document.getElementById("queue").append(waveP);});#}
+
+        {#var clapButton = document.getElementById("clapButton");#}
+        {#clapButton.addEventListener("click", function (e) {#}
+        {#    e.preventDefault();#}
+        {#    localStorage.setItem("queue", localStorage.getItem("queue") + ", clap");#}
+        {#    console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))#}
+        {#    const clapP = document.createElement("p");#}
+        {#    clapP.innerText = "Clap";#}
+        {#    document.getElementById("queue").append(clapP);#}
+        {#    document.getElementById("queue").innerText += "clap"; });#}
+
+        {#var handLoopButton = document.getElementById("handLoopButton");#}
+        {#handLoopButton.addEventListener("click", function (e) {#}
+        {#    localStorage.setItem("queue", localStorage.getItem("queue") + ", hand loop");#}
+        {#    console.log("LOCAL STORAGE LIST = " + localStorage.getItem("queue"))#}
+        {#    const handLoopP = document.createElement("p");#}
+        {#    handLoopP.innerText = "Hand Loop";#}
+        {#    document.getElementById("queue").append(handLoopP);});#}
+
 
         const runButton = document.getElementById("runButton");
         runButton.addEventListener("click", function (e) {

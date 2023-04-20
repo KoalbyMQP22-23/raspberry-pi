@@ -38,9 +38,24 @@
 }
 
 .child {
+    display: inline-table;
+    width:100%;
+}
+
+.qPrev {
     display: inline-block;
 }
 
+.runButton{
+  padding: 20px;
+  background: #36c3fe;
+  font-family: 'Inter', serif;
+  color: white;
+  border:none;
+  border-radius: 5px;
+  font-size: 20px;
+
+}
 .home_container{
 /*   border: 5px solid red; */
 }
@@ -72,7 +87,7 @@
 
 .backButton {
     width: 100%;
-    background: #36c3fe;
+    background: #6592fE;
     text-decoration: none;
     color: white;
     font-weight: bold;
@@ -86,11 +101,10 @@
     height: 50px;
   border: none;
     background: #8c61ff;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
   margin-top: 10px;
     text-align: center;
-  font-size:18px;
-  margin-top: 30px;
+  font-size:20px;
     text-decoration: none;
     border-radius: 5px;
     color: white;
@@ -99,7 +113,7 @@
 
 .button {
     display: inline-table;
-    width: 35%;
+    width: 45%;
     height: 25px;
     background: #36c3fe;
     padding: 15px;
@@ -108,8 +122,9 @@
     border-radius: 5px;
     color: white;
     margin-bottom: 10px;
-   margin-left: 5px;
-   margin-right: 5px;
+    font-size: 25px;
+/*    margin-left: 5px; */
+   margin-right: 7px;
 }
 
 .hand-button {
@@ -128,14 +143,14 @@
 .sensor-button {
     display: inline-block;
     border: none;
-    width: 78%;
+    width: 95%;
     margin-bottom: 10px;
     background: #9c9990;
     padding: 20px;
     text-decoration: none;
   text-align: center;
     font-family: 'Inter', serif;
-    font-size: 16px;
+    font-size: 25px;
     border-radius: 5px;
     color: white;
     line-height: 25px;
@@ -188,13 +203,13 @@
 .walk_button {
     display: inline-block;
     border: none;
-    width: 90%;
+    width: 100%;
     margin-bottom: 10px;
     background: #6059f7;
-    padding: 20px;
+    padding: 25px;
     text-decoration: none;
     font-family: 'Inter', serif;
-    font-size: 16px;
+    font-size: 25px;
     border-radius: 5px;
     color: white;
     line-height: 25px;
@@ -203,12 +218,12 @@
 .command {
     display: inline-block;
     border: none;
-    width: 30%;
+    width: 25%;
     margin-bottom: 10px;
     background: #6059f7;
-    padding: 10px;
+    padding: 15px;
     font-family: 'Inter', serif;
-    font-size: 16px;
+    font-size: 25px;
     border-radius: 5px;
     color: white;
 }
@@ -253,9 +268,9 @@ p {
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 16px 16px;
   text-decoration: none;
-  font-size: 12.7px;
+  font-size: 20px;
 }
 
 /* Change the color of links on hover */
