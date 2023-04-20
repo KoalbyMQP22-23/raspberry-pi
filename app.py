@@ -123,7 +123,7 @@ def record_one_new():
         file_and_first = request.get_json()
         file_name = file_and_first["fileName"]
         first = file_and_first["firstTime"]
-        MovementManager.record_motion_ui(robot, file_name, first, pose_list)
+        pose_list = MovementManager.record_motion_ui(robot, file_name, first, pose_list)
         return Response("Finished Recording", mimetype="text/xml")
     # return failure
     return Response("failure", mimetype="text/xml")

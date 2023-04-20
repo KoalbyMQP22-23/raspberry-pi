@@ -152,16 +152,18 @@ class RealRobot(Robot):
         print("here")
         self.primitives = []
         self.is_real = True
+        print("real")
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
-        self.arduino_serial.send_command('40')  # Init IMU
-        time.sleep(2)
-        self.arduino_serial.send_command('50')  # Init TFLuna
-        time.sleep(2)
+        # self.arduino_serial.send_command('40')  # Init IMU
+        # time.sleep(2)
+        # self.arduino_serial.send_command('50')  # Init TFLuna
+        # time.sleep(2)
+        print("nn")
         print(self.arduino_serial.read_command())
-        print(self.arduino_serial.read_command())
-        self.arduino_serial.send_command('60')  # Init HuskyLens
-        print(self.arduino_serial.read_command())
-        print("Huskey Lens Init")
+        # print(self.arduino_serial.read_command())
+        # self.arduino_serial.send_command('60')  # Init HuskyLens
+        # print(self.arduino_serial.read_command())
+        print("done Init")
         self.left_hand_motor = None
         super().__init__(True, self.motors)
 
