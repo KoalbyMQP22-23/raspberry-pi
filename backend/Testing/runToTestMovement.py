@@ -1,4 +1,5 @@
 import sys
+import time
 
 from backend.KoalbyHumaniod.Robot import RealRobot
 from backend.Primitives.MovementManager import play_motion
@@ -16,5 +17,6 @@ def setup():
 
 # TODO: tweaks for some reason when executing movement
 robot_type, playback_file, p_time, p_delay = setup()
+time.sleep(5)
 play_motion(robot_type, playback_file, p_time, p_delay)
 print("Done")

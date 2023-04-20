@@ -48,10 +48,10 @@ print(iterateThroughThis)
 #
 # # p = get_task_space(fkResult1)
 # # print(p)
-# q = testChain.inverse_kinematics_leg(fkResult1)  # inverse kinematics of Koalby's leg
+# wave = testChain.inverse_kinematics_leg(fkResult1)  # inverse kinematics of Koalby's leg
 # print("Joint Space Angles")
-# print(q)
+# print(wave)
 #
 # print("Confirm math, result should equal fkResult1")
-# qConfirm, babe = testChain.forward_kinematics(q)  # forward kinematics on inverse kinematics result for confirmation
+# qConfirm, babe = testChain.forward_kinematics(wave)  # forward kinematics on inverse kinematics result for confirmation
 # print(qConfirm)

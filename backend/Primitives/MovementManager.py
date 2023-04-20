@@ -25,8 +25,8 @@ recorded_poses = []
 
 def play_motion(robot, file_name, pose_time, pose_delay):
     pose_time_millis = int((pose_time - 0.005) * 1000)
-    long_file_name = "/Users/caseysnow/Desktop/MQP/flask-project/backend/Primitives/poses/" + file_name
-    # long_file_name = "./flaskProject/backend/Primitives/poses/" + file_name
+    # long_file_name = "/Users/caseysnow/Desktop/MQP/raspberry-pi/backend/Primitives/poses/" + file_name
+    long_file_name = "./flaskProject/backend/Primitives/poses/" + file_name
     with open(long_file_name) as f:
         csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                               for row in
@@ -81,7 +81,7 @@ def record_motion(robot, pose_num):
     # write dictionary of recorded poses to csv file
     motor_id_headers = poses_recorded[0].keys()
     motion_file_name = str(input("Input saved file name:"))  # request a filename
-    motion_file = open("/Users/caseysnow/Desktop/MQP/flask-project/backend/Primitives/poses" + str(motion_file_name), "w")
+    motion_file = open("/Users/caseysnow/Desktop/MQP/raspberry-pi/backend/Primitives/poses/" + str(motion_file_name), "w")
     dict_writer = csv.DictWriter(motion_file, motor_id_headers)
     dict_writer.writeheader()
     dict_writer.writerows(poses_recorded)
@@ -108,7 +108,8 @@ def record_motion_ui(robot, file_name, first_time):
     time.sleep(0.01)  # comms buffer delay
     # write dictionary of recorded poses to csv file
     motor_id_headers = recorded_poses[0].keys()
-    with open(file_name, 'a') as file1:
+    motion_file = "/Users/caseysnow/Desktop/MQP/raspberry-pi/backend/Primitives/poses/" + str(file_name)
+    with open(motion_file, 'a') as file1:
         if first_time:
             file1.writelines(motor_id_headers)
         file1.writelines(recorded_poses)
