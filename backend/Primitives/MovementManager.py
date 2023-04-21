@@ -4,7 +4,7 @@ import time
 
 class Poses:
     def __init__(self):
-        self.poses = ["Wave"]
+        self.poses = ["Wave", "HandShake"]
 
 
 def split_list(robot, primitive_list, pose_time, pose_delay):
@@ -109,7 +109,7 @@ def record_motion_ui(robot, file_name, first_time, pose_list):
     motor_id_headers = recorded_poses[0].keys()
     motion_file = open("/home/casey/Desktop/raspberry-pi/backend/Primitives/poses/" + str(file_name),
                        "w")
-    pose_list.poses.append(file_name)
+    # pose_list.poses.append(file_name)
     dict_writer = csv.DictWriter(motion_file, motor_id_headers)
     if first_time:
         dict_writer.writeheader()

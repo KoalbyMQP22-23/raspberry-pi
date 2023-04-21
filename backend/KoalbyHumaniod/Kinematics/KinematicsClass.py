@@ -77,7 +77,7 @@ class Chain(namedtuple('Chain', ('links', 'base', 'tool'))):
         q = numpy.array(q).flatten()
 
         if len(q) != len(self.links):
-            raise ValueError('wave must contain as element as the number of links')
+            raise ValueError('Wave must contain as element as the number of links')
 
         tr = self.base.copy()
 
@@ -94,7 +94,7 @@ class Chain(namedtuple('Chain', ('links', 'base', 'tool'))):
 
     def inverse_kinematics_leg(self, end_effector_matrix):
         """ Calculates the inverse kinematics of a vector of task space coordinates (p) and returns
-            the corresponding angle values as a vector of the same size (wave) for Koalby's leg"""
+            the corresponding angle values as a vector of the same size (Wave) for Koalby's leg"""
         l1 = self.links[0].length  # length of thigh
         l2 = self.links[1].length  # length of shin
         l3 = self.links[2].length  # length of foot
@@ -136,7 +136,7 @@ class Chain(namedtuple('Chain', ('links', 'base', 'tool'))):
         U = self.tool.copy()
         J = numpy.matrix([[]] * 6)
         print(list(reversed(list(zip(self.links, q)))))
-        # print(wave)
+        # print(Wave)
 
         for link, theta in reversed(list(zip(self.links, q))):
             U = link.get_transformation_matrix(theta) * U
