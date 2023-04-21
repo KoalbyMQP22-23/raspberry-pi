@@ -14,7 +14,7 @@
         <button id="tutorial" class="tutorial-button">Help</button>
 
 
-        <button id="walk" class="walk_button">Begin Walking</button>
+{#        <button id="walk" class="walk_button">Begin Walking</button>#}
         <a href=/pre-recorded class="button">Execute Movements</a>
         <a id="record-new" href=/record-new class="button">Record New Movement</a>
 
@@ -35,25 +35,25 @@
         window.onload = clearQueue
         var isWalking = true
 
-        var button = document.getElementById("walk");
-        button.addEventListener("click", function (e) {
-            console.log("Walk clicked");
-            if (isWalking) {
-                document.getElementById("walk").innerText = "Stop Walking";
-                isWalking = false
-            } else {
-                document.getElementById("walk").innerText = "Begin Walking";
-                isWalking = true
-            }
-            e.preventDefault();
-            const request = new XMLHttpRequest();
-            request.onload = function () {
-                document.getElementById('descriptor').innerHTML = request.response;
+        {#var button = document.getElementById("walk");#}
+        {#button.addEventListener("click", function (e) {#}
+        {#    console.log("Walk clicked");#}
+        {#    if (isWalking) {#}
+        {#        document.getElementById("walk").innerText = "Stop Walking";#}
+        {#        isWalking = false#}
+        {#    } else {#}
+        {#        document.getElementById("walk").innerText = "Begin Walking";#}
+        {#        isWalking = true#}
+        {#    }#}
+        {#    e.preventDefault();#}
+        {#    const request = new XMLHttpRequest();#}
+        {#    request.onload = function () {#}
+        {#        document.getElementById('descriptor').innerHTML = request.response;#}
+        {##}
+        {#    };#}
+        {#    request.open("GET", "/walk-toggle", true);#}
+        {#    request.send(); });#}
 
-            };
-            request.open("GET", "/walk-toggle", true);
-            request.send();
-        });
 
         {#var openHandButton = document.getElementById("openHand");#}
         {#openHandButton.addEventListener("click", function (e) {#}

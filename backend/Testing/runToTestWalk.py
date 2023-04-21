@@ -19,6 +19,7 @@ class Walker:
         self.left_leg_positions = []
         with open(
                 "/home/casey/Desktop/raspberry-pi/backend/Primitives/poses/rightWalk") as f:
+            # "/Users/caseysnow/Desktop/MQP/raspberry-pi/backend/Primitives/poses/rightWalk") as f:
             # with open(poses/replay_filename) as f:
             csv_recorded_poses = [{k: int(v) for k, v in row.items()}
                                   for row in

@@ -99,25 +99,6 @@ def record_motion_ui(robot, file_name, first_time, pose_list):
         m.compliant_toggle(1)  # sets all motors in the robot to be compliant for moving to poses
         time.sleep(0.1)  # need delay for comm time
 
-        # pose_motor_positions_dict = {}
-        # time.sleep(0.1)  # delay to allow consistent reading of first motor in first pose
-        # for m in robot.motors:  # for each motor in Motors list
-        #     pose_motor_positions_dict[m.motor_id] = m.get_position("")  # add the motor ID as key and motor position as
-        #     # value
-        #     recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of
-        #     # recorded poses
-        #
-        # time.sleep(0.01)  # comms buffer delay
-        # # write dictionary of recorded poses to csv file
-        # motor_id_headers = recorded_poses[0].keys()
-        # motion_file = "/home/casey/Desktop/raspberry-pi/backend/Primitives/poses/" + str(file_name)
-        # with open(motion_file, 'a') as file1:
-        #     if first_time:
-        #         file1.writelines(str(motor_id_headers))
-        #     file1.writelines(recorded_poses)
-        # file1.close()
-        # pose_list.append(file_name)
-
         pose_motor_positions_dict[m.motor_id] = m.get_position(
             "")  # add the motor ID as key and motor position as value
         recorded_poses.append(pose_motor_positions_dict)  # add dictionary of current robot pose to list of
@@ -128,7 +109,7 @@ def record_motion_ui(robot, file_name, first_time, pose_list):
     motor_id_headers = recorded_poses[0].keys()
     motion_file = open("/home/casey/Desktop/raspberry-pi/backend/Primitives/poses/" + str(file_name),
                        "w")
-    pose_list.append(file_name)
+    pose_list.poses.append(file_name)
     dict_writer = csv.DictWriter(motion_file, motor_id_headers)
     if first_time:
         dict_writer.writeheader()
